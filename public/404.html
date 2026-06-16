@@ -70,6 +70,12 @@
     <header class="header">
     <nav class="header-nav">
         <div class="logo">
+            <a href="http://localhost:1313/" class="back-button" accesskey="b" title="Back to Home (Alt + B)" aria-label="Back to Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </a>
             <a href="http://localhost:1313/" accesskey="h" title="Govardhan Dev Blog (Alt + H)">Govardhan Dev Blog</a>
             <div class="logo-switches">
                 <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
@@ -94,10 +100,29 @@
                 </button>
             </div>
         </div>
-        <ul id="menu" class="menu">
+        <ul class="header-menu" id="menu">
         </ul>
     </nav>
 </header>
+<style>
+    .back-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 8px;
+        color: var(--primary);
+        transition: color 0.3s ease;
+    }
+    
+    .back-button:hover {
+        color: var(--accent);
+    }
+    
+    .back-button svg {
+        width: 20px;
+        height: 20px;
+    }
+</style>
 <main class="main">
 <div class="not-found">404</div>
     </main>

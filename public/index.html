@@ -96,25 +96,59 @@
                 </button>
             </div>
         </div>
-        <ul id="menu" class="menu">
+        <ul class="header-menu" id="menu">
         </ul>
     </nav>
 </header>
+<style>
+    .back-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 8px;
+        color: var(--primary);
+        transition: color 0.3s ease;
+    }
+    
+    .back-button:hover {
+        color: var(--accent);
+    }
+    
+    .back-button svg {
+        width: 20px;
+        height: 20px;
+    }
+</style>
 <main class="main"> 
 
-<article class="first-entry"> 
+<article class="post-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">Hello World
+    <h2 class="entry-hint-parent">DSA Interview Questions
     </h2>
   </header>
   <div class="entry-content">
-    <p>My First Post This is my Hugo blog running locally.
-package main import &#34;fmt&#34; func main() { fmt.Println(&#34;Hello Hugo&#34;) } </p>
+    <p>DSA Interview Questions Repository Quick reference for interview questions organized by company and topic. Click on any question to expand details.
+...</p>
   </div>
   <footer class="entry-footer">
 
 <span title='2026-06-16 00:00:00 +0000 UTC'>June 16, 2026</span></footer>
-  <a class="entry-link" aria-label="post link to Hello World" href="http://localhost:1313/posts/hello-world/"></a>
+  <a class="entry-link" aria-label="post link to DSA Interview Questions" href="http://localhost:1313/posts/data-structures-algorithms/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">System Design Interview Questions
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>System Design Interview Questions Repository System design interview questions with detailed explanations. Click on any question to expand details.
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2026-06-16 00:00:00 +0000 UTC'>June 16, 2026</span></footer>
+  <a class="entry-link" aria-label="post link to System Design Interview Questions" href="http://localhost:1313/posts/system-design/"></a>
 </article>
     </main>
     

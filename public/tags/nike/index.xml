@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Nike on Govardhan Dev Blog</title>
+    <link>http://localhost:1313/tags/nike/</link>
+    <description>Recent content in Nike on Govardhan Dev Blog</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 16 Jun 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/nike/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DSA Interview Questions</title>
+      <link>http://localhost:1313/posts/data-structures-algorithms/</link>
+      <pubDate>Tue, 16 Jun 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/data-structures-algorithms/</guid>
+      <description>&lt;h2 id=&#34;move-zeroes-to-end&#34;&gt;Move Zeroes to End&lt;/h2&gt;
+&lt;h3 id=&#34;problem-statement&#34;&gt;Problem Statement&lt;/h3&gt;
+&lt;p&gt;Given an integer array &lt;code&gt;nums&lt;/code&gt;, move all zeroes to the end of it while maintaining the relative order of the non-zero elements.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; You must do this in-place without making a copy of the array.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Example 1:&lt;/strong&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Input: nums = [0,1,0,3,12]
+Output: [1,3,12,0,0]
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;strong&gt;Example 2:&lt;/strong&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;Input: nums = [0]
+Output: [0]
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&#34;solution---java&#34;&gt;Solution - Java&lt;/h3&gt;
+&lt;h4 id=&#34;approach-two-pointer-technique&#34;&gt;Approach: Two-Pointer Technique&lt;/h4&gt;
+&lt;p&gt;The idea is to keep track of the position where the next non-zero element should be placed. We iterate through the array, and whenever we find a non-zero element, we swap it with the element at the position where the next non-zero should go.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

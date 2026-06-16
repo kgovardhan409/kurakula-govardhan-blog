@@ -3,3 +3,10 @@ languageCode = 'en-us'
 title = 'Govardhan Dev Blog'
 
 theme = 'PaperMod'
+
+[markup.goldmark.renderer]
+unsafe = true
+
+[params]
+disableThemeToggle = false
+disableSpecial1stPost = true

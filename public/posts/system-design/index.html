@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>System Design Interview Questions | Govardhan Dev Blog</title>
+<meta name="keywords" content="System Design, Architecture, Interview">
+<meta name="description" content="System Design Interview Questions Repository
+System design interview questions with detailed explanations. Click on any question to expand details.">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/system-design/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/system-design/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" class="back-button" accesskey="b" title="Back to Home (Alt + B)" aria-label="Back to Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </a>
+            <a href="http://localhost:1313/" accesskey="h" title="Govardhan Dev Blog (Alt + H)">Govardhan Dev Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul class="header-menu" id="menu">
+        </ul>
+    </nav>
+</header>
+<style>
+    .back-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 8px;
+        color: var(--primary);
+        transition: color 0.3s ease;
+    }
+    
+    .back-button:hover {
+        color: var(--accent);
+    }
+    
+    .back-button svg {
+        width: 20px;
+        height: 20px;
+    }
+</style>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      System Design Interview Questions
+    </h1>
+    <div class="post-meta">
+
+<span title='2026-06-16 00:00:00 +0000 UTC'>June 16, 2026</span>
+
+</div>
+  </header> 
+  <div class="post-content md-content"><h1 id="system-design-interview-questions-repository">System Design Interview Questions Repository<a hidden class="anchor" aria-hidden="true" href="#system-design-interview-questions-repository">#</a></h1>
+<p>System design interview questions with detailed explanations. Click on any question to expand details.</p>
+<hr>
+<details>
+<summary><strong>Design an Order Management System</strong> - <code>System Design</code></summary>
+<h3 id="problem-statement">Problem Statement<a hidden class="anchor" aria-hidden="true" href="#problem-statement">#</a></h3>
+<p>Design a scalable Order Management System that handles order creation, processing, and tracking. The system should support multiple services and handle high traffic.</p>
+<h3 id="key-requirements">Key Requirements<a hidden class="anchor" aria-hidden="true" href="#key-requirements">#</a></h3>
+<ul>
+<li>Handle concurrent order creation</li>
+<li>Support order tracking and status updates</li>
+<li>Integrate with payment, inventory, and shipping services</li>
+<li>Ensure consistency and reliability</li>
+<li>Support future scalability</li>
+</ul>
+<h3 id="system-architecture">System Architecture<a hidden class="anchor" aria-hidden="true" href="#system-architecture">#</a></h3>
+<pre tabindex="0"><code>┌─────────────┐
+│   Client    │
+└──────┬──────┘
+       │
+┌──────▼──────────────┐
+│  API Gateway        │
+│ (Rate Limiting)     │
+└──────┬──────────────┘
+       │
+   ┌───┴────────────────────┬─────────────────────┐
+   │                        │                     │
+┌──▼──────────────┐  ┌──────▼────────┐  ┌────────▼─────┐
+│ Order Service   │  │ Payment       │  │ Inventory    │
+│ (REST/gRPC)     │  │ Service       │  │ Service      │
+└──┬──────────────┘  └───────────────┘  └──────────────┘
+   │
+   ├─► Message Queue (RabbitMQ/Kafka)
+   ├─► Order DB (PostgreSQL)
+   ├─► Cache Layer (Redis)
+   └─► Notification Service
+</code></pre><h3 id="core-components">Core Components<a hidden class="anchor" aria-hidden="true" href="#core-components">#</a></h3>
+<h4 id="1-order-service">1. Order Service<a hidden class="anchor" aria-hidden="true" href="#1-order-service">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RestController</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/api/v1/orders&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">OrderController</span> {
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@PostMapping</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> ResponseEntity<span style="color:#f92672">&lt;</span>OrderResponse<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">createOrder</span>(<span style="color:#a6e22e">@RequestBody</span> CreateOrderRequest request) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Validate request</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Reserve inventory</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Process payment</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Save order</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Publish event</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> ResponseEntity.<span style="color:#a6e22e">ok</span>(orderService.<span style="color:#a6e22e">createOrder</span>(request));
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@GetMapping</span>(<span style="color:#e6db74">&#34;/{orderId}&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> ResponseEntity<span style="color:#f92672">&lt;</span>OrderResponse<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getOrder</span>(<span style="color:#a6e22e">@PathVariable</span> String orderId) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> ResponseEntity.<span style="color:#a6e22e">ok</span>(orderService.<span style="color:#a6e22e">getOrder</span>(orderId));
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="key-points">Key Points<a hidden class="anchor" aria-hidden="true" href="#key-points">#</a></h3>
+<ol>
+<li><strong>Event-Driven Architecture</strong>: Orders publish events for downstream services</li>
+<li><strong>Idempotency</strong>: All API endpoints are idempotent using unique order IDs</li>
+<li><strong>Transaction Management</strong>: ACID compliance for order creation</li>
+<li><strong>Service Communication</strong>: Synchronous (REST/gRPC) for critical operations, asynchronous (Kafka) for events</li>
+<li><strong>Monitoring &amp; Logging</strong>: All state changes are tracked and logged</li>
+</ol>
+</details>
+<hr>
+<details>
+<summary><strong>Caching Strategy</strong> - <code>Cache</code></summary>
+<h3 id="problem-statement-1">Problem Statement<a hidden class="anchor" aria-hidden="true" href="#problem-statement-1">#</a></h3>
+<p>What should be cached in an Order Management System? What TTL should products have?</p>
+<h3 id="what-to-cache">What to Cache<a hidden class="anchor" aria-hidden="true" href="#what-to-cache">#</a></h3>
+<h4 id="1-product-information">1. Product Information<a hidden class="anchor" aria-hidden="true" href="#1-product-information">#</a></h4>
+<p><strong>Why Cache:</strong></p>
+<ul>
+<li>High read-to-write ratio</li>
+<li>Frequently accessed during order creation</li>
+<li>Reduces database load</li>
+</ul>
+<p><strong>TTL:</strong> 1-2 hours (products change frequently but not real-time)</p>
+<h4 id="2-customer-profile">2. Customer Profile<a hidden class="anchor" aria-hidden="true" href="#2-customer-profile">#</a></h4>
+<p><strong>Why Cache:</strong></p>
+<ul>
+<li>Stable data with infrequent updates</li>
+<li>Accessed on every order</li>
+</ul>
+<p><strong>TTL:</strong> 4-6 hours</p>
+<h4 id="3-inventorystock-levels">3. Inventory/Stock Levels<a hidden class="anchor" aria-hidden="true" href="#3-inventorystock-levels">#</a></h4>
+<p><strong>Why Cache:</strong></p>
+<ul>
+<li>Critical for order processing</li>
+<li>High read frequency</li>
+<li>Changes frequently</li>
+</ul>
+<p><strong>TTL:</strong> 5-15 minutes (conservative due to frequent updates)</p>
+<h4 id="4-pricing-information">4. Pricing Information<a hidden class="anchor" aria-hidden="true" href="#4-pricing-information">#</a></h4>
+<p><strong>Why Cache:</strong></p>
+<ul>
+<li>Used in calculations</li>
+<li>Changes periodically</li>
+</ul>
+<p><strong>TTL:</strong> 30 minutes - 1 hour</p>
+<h4 id="5-shipping-rates">5. Shipping Rates<a hidden class="anchor" aria-hidden="true" href="#5-shipping-rates">#</a></h4>
+<p><strong>Why Cache:</strong></p>
+<ul>
+<li>External service calls can be expensive</li>
+<li>Relatively stable</li>
+</ul>
+<p><strong>TTL:</strong> 24 hours</p>
+<h4 id="6-order-status-recent-orders">6. Order Status (Recent Orders)<a hidden class="anchor" aria-hidden="true" href="#6-order-status-recent-orders">#</a></h4>
+<p><strong>Why Cache:</strong></p>
+<ul>
+<li>Frequently accessed</li>
+<li>Time-bound (recent orders only)</li>
+</ul>
+<p><strong>TTL:</strong> 6 hours</p>
+<h3 id="caching-patterns">Caching Patterns<a hidden class="anchor" aria-hidden="true" href="#caching-patterns">#</a></h3>
+<table>
+	<thead>
+			<tr>
+					<th>Resource</th>
+					<th>TTL</th>
+					<th>Strategy</th>
+					<th>Read:Write</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Product</td>
+					<td>1-2 hrs</td>
+					<td>Cache-Aside</td>
+					<td>High</td>
+			</tr>
+			<tr>
+					<td>Customer</td>
+					<td>4-6 hrs</td>
+					<td>Cache-Aside</td>
+					<td>High</td>
+			</tr>
+			<tr>
+					<td>Inventory</td>
+					<td>5-15 mins</td>
+					<td>Write-Through</td>
+					<td>Medium</td>
+			</tr>
+			<tr>
+					<td>Pricing</td>
+					<td>30-60 mins</td>
+					<td>Cache-Aside</td>
+					<td>High</td>
+			</tr>
+			<tr>
+					<td>Orders (Recent)</td>
+					<td>6 hrs</td>
+					<td>Lazy Load</td>
+					<td>High</td>
+			</tr>
+			<tr>
+					<td>Shipping Rates</td>
+					<td>24 hrs</td>
+					<td>Cache-Aside</td>
+					<td>Very High</td>
+			</tr>
+	</tbody>
+</table>
+<h3 id="key-points-1">Key Points<a hidden class="anchor" aria-hidden="true" href="#key-points-1">#</a></h3>
+<ol>
+<li><strong>Product Cache (1-2 hours)</strong>: Balanced between freshness and performance</li>
+<li><strong>Inventory Cache (5-15 minutes)</strong>: Conservative TTL due to frequent changes</li>
+<li><strong>Cache Invalidation</strong>: Use event-driven invalidation for consistency</li>
+<li><strong>Monitoring</strong>: Track cache hit rates and adjust TTLs accordingly</li>
+<li><strong>Fallback</strong>: Always handle cache misses gracefully</li>
+</ol>
+</details>
+<hr>
+<details>
+<summary><strong>API Performance Analysis</strong> - <code>API Design</code></summary>
+<h3 id="problem-statement-2">Problem Statement<a hidden class="anchor" aria-hidden="true" href="#problem-statement-2">#</a></h3>
+<p>What is a good API response time? How would you analyze and improve API performance?</p>
+<h3 id="good-response-time-benchmarks">Good Response Time Benchmarks<a hidden class="anchor" aria-hidden="true" href="#good-response-time-benchmarks">#</a></h3>
+<table>
+	<thead>
+			<tr>
+					<th>API Type</th>
+					<th>Target</th>
+					<th>Acceptable</th>
+					<th>Poor</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>GET (cached)</td>
+					<td>&lt; 50ms</td>
+					<td>&lt; 100ms</td>
+					<td>&gt; 500ms</td>
+			</tr>
+			<tr>
+					<td>GET (DB)</td>
+					<td>&lt; 200ms</td>
+					<td>&lt; 500ms</td>
+					<td>&gt; 1s</td>
+			</tr>
+			<tr>
+					<td>POST/PUT</td>
+					<td>&lt; 300ms</td>
+					<td>&lt; 1s</td>
+					<td>&gt; 2s</td>
+			</tr>
+			<tr>
+					<td>Complex Query</td>
+					<td>&lt; 1s</td>
+					<td>&lt; 3s</td>
+					<td>&gt; 5s</td>
+			</tr>
+	</tbody>
+</table>
+<h3 id="performance-optimization-strategies">Performance Optimization Strategies<a hidden class="anchor" aria-hidden="true" href="#performance-optimization-strategies">#</a></h3>
+<h4 id="1-n1-query-prevention">1. N+1 Query Prevention<a hidden class="anchor" aria-hidden="true" href="#1-n1-query-prevention">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Query</span>(<span style="color:#e6db74">&#34;SELECT DISTINCT o FROM Order o LEFT JOIN FETCH o.items&#34;</span>)
+</span></span><span style="display:flex;"><span>List<span style="color:#f92672">&lt;</span>Order<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">findAllWithItems</span>();
+</span></span></code></pre></div><h4 id="2-index-optimization">2. Index Optimization<a hidden class="anchor" aria-hidden="true" href="#2-index-optimization">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">INDEX</span> idx_order_customer_date <span style="color:#66d9ef">ON</span> orders(customer_id, created_at <span style="color:#66d9ef">DESC</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">INDEX</span> idx_order_status <span style="color:#66d9ef">ON</span> orders(status);
+</span></span></code></pre></div><h4 id="3-pagination-for-large-result-sets">3. Pagination for Large Result Sets<a hidden class="anchor" aria-hidden="true" href="#3-pagination-for-large-result-sets">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@GetMapping</span>(<span style="color:#e6db74">&#34;/orders&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> ResponseEntity<span style="color:#f92672">&lt;</span>Page<span style="color:#f92672">&lt;</span>OrderResponse<span style="color:#f92672">&gt;&gt;</span> <span style="color:#a6e22e">listOrders</span>(
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@RequestParam</span>(defaultValue <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;0&#34;</span>) <span style="color:#66d9ef">int</span> page,
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@RequestParam</span>(defaultValue <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;20&#34;</span>) <span style="color:#66d9ef">int</span> size) {
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    Pageable pageable <span style="color:#f92672">=</span> PageRequest.<span style="color:#a6e22e">of</span>(page, size, Sort.<span style="color:#a6e22e">by</span>(<span style="color:#e6db74">&#34;createdAt&#34;</span>).<span style="color:#a6e22e">descending</span>());
+</span></span><span style="display:flex;"><span>    Page<span style="color:#f92672">&lt;</span>Order<span style="color:#f92672">&gt;</span> orders <span style="color:#f92672">=</span> orderRepository.<span style="color:#a6e22e">findAll</span>(pageable);
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> ResponseEntity.<span style="color:#a6e22e">ok</span>(orders.<span style="color:#a6e22e">map</span>(OrderResponse::from));
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="4-caching-strategy">4. Caching Strategy<a hidden class="anchor" aria-hidden="true" href="#4-caching-strategy">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Cacheable</span>(value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;orders&#34;</span>, key <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#orderId&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> OrderResponse <span style="color:#a6e22e">getOrder</span>(String orderId) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> OrderResponse.<span style="color:#a6e22e">from</span>(
+</span></span><span style="display:flex;"><span>        orderRepository.<span style="color:#a6e22e">findById</span>(orderId).<span style="color:#a6e22e">orElseThrow</span>()
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="analysis-tools">Analysis Tools<a hidden class="anchor" aria-hidden="true" href="#analysis-tools">#</a></h3>
+<ul>
+<li>Spring Boot Actuator: Metrics and monitoring</li>
+<li>Prometheus + Grafana: Visualization</li>
+<li>Zipkin: Distributed tracing</li>
+<li>SLA Monitoring: Track percentiles (p50, p95, p99)</li>
+</ul>
+<h3 id="key-points-2">Key Points<a hidden class="anchor" aria-hidden="true" href="#key-points-2">#</a></h3>
+<ol>
+<li><strong>Set realistic targets</strong>: Consider resource constraints and business needs</li>
+<li><strong>Continuous monitoring</strong>: Use metrics to identify bottlenecks</li>
+<li><strong>Database optimization</strong>: Indexes, query optimization, and lazy loading</li>
+<li><strong>Caching</strong>: Reduce database hits for frequently accessed data</li>
+<li><strong>Distributed tracing</strong>: Understand request flow across services</li>
+</ol>
+</details>
+<hr>
+<details>
+<summary><strong>Microservices - Extending Features Without Breaking Others</strong> - <code>Microservices</code></summary>
+<h3 id="problem-statement-3">Problem Statement<a hidden class="anchor" aria-hidden="true" href="#problem-statement-3">#</a></h3>
+<p>One microservice needs new fields (estimated quantity, backup quantity) but other microservices depend on quantity. How do you extend without breaking existing services?</p>
+<h3 id="solution-schema-evolution-with-backward-compatibility">Solution: Schema Evolution with Backward Compatibility<a hidden class="anchor" aria-hidden="true" href="#solution-schema-evolution-with-backward-compatibility">#</a></h3>
+<h4 id="1-add-new-fields-without-breaking-existing-api">1. Add New Fields Without Breaking Existing API<a hidden class="anchor" aria-hidden="true" href="#1-add-new-fields-without-breaking-existing-api">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Data</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Builder</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">QuantityResponse</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Long quantity;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> LocalDateTime lastUpdated;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// New fields - optional with default values</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@JsonInclude</span>(JsonInclude.<span style="color:#a6e22e">Include</span>.<span style="color:#a6e22e">NON_NULL</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Long estimatedQuantity;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@JsonInclude</span>(JsonInclude.<span style="color:#a6e22e">Include</span>.<span style="color:#a6e22e">NON_NULL</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Long backupQuantity;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="2-api-versioning">2. API Versioning<a hidden class="anchor" aria-hidden="true" href="#2-api-versioning">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// Keep old API intact</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@RestController</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/api/v1/products/{productId}&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">QuantityControllerV1</span> {
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@GetMapping</span>(<span style="color:#e6db74">&#34;/quantity&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> ResponseEntity<span style="color:#f92672">&lt;</span>QuantityResponseV1<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getQuantity</span>(<span style="color:#a6e22e">@PathVariable</span> String productId) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> ResponseEntity.<span style="color:#a6e22e">ok</span>(quantityService.<span style="color:#a6e22e">getQuantityV1</span>(productId));
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// New API with extended features</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@RestController</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/api/v2/products/{productId}&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">QuantityControllerV2</span> {
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@GetMapping</span>(<span style="color:#e6db74">&#34;/quantity&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> ResponseEntity<span style="color:#f92672">&lt;</span>QuantityResponseV2<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getQuantity</span>(<span style="color:#a6e22e">@PathVariable</span> String productId) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> ResponseEntity.<span style="color:#a6e22e">ok</span>(quantityService.<span style="color:#a6e22e">getQuantityV2</span>(productId));
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="3-database-schema-evolution">3. Database Schema Evolution<a hidden class="anchor" aria-hidden="true" href="#3-database-schema-evolution">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> product_quantity <span style="color:#66d9ef">ADD</span> <span style="color:#66d9ef">COLUMN</span> estimated_quantity BIGINT <span style="color:#66d9ef">NULL</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> product_quantity <span style="color:#66d9ef">ADD</span> <span style="color:#66d9ef">COLUMN</span> backup_quantity BIGINT <span style="color:#66d9ef">NULL</span>;
+</span></span></code></pre></div><h4 id="4-feature-toggle-for-gradual-rollout">4. Feature Toggle for Gradual Rollout<a hidden class="anchor" aria-hidden="true" href="#4-feature-toggle-for-gradual-rollout">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Service</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">QuantityService</span> {
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> QuantityResponse <span style="color:#a6e22e">getQuantity</span>(String productId, String clientId) {
+</span></span><span style="display:flex;"><span>        ProductQuantity data <span style="color:#f92672">=</span> repository.<span style="color:#a6e22e">findByProductId</span>(productId);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        QuantityResponse response <span style="color:#f92672">=</span> QuantityResponse.<span style="color:#a6e22e">builder</span>()
+</span></span><span style="display:flex;"><span>            .<span style="color:#a6e22e">quantity</span>(data.<span style="color:#a6e22e">getQuantity</span>())
+</span></span><span style="display:flex;"><span>            .<span style="color:#a6e22e">lastUpdated</span>(data.<span style="color:#a6e22e">getUpdatedAt</span>())
+</span></span><span style="display:flex;"><span>            .<span style="color:#a6e22e">build</span>();
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (featureToggle.<span style="color:#a6e22e">isEnabled</span>(<span style="color:#e6db74">&#34;EXTENDED_QUANTITY_FIELDS&#34;</span>, clientId)) {
+</span></span><span style="display:flex;"><span>            response.<span style="color:#a6e22e">setEstimatedQuantity</span>(data.<span style="color:#a6e22e">getEstimatedQuantity</span>());
+</span></span><span style="display:flex;"><span>            response.<span style="color:#a6e22e">setBackupQuantity</span>(data.<span style="color:#a6e22e">getBackupQuantity</span>());
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> response;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="best-practices">Best Practices<a hidden class="anchor" aria-hidden="true" href="#best-practices">#</a></h3>
+<ol>
+<li><strong>Backward Compatibility</strong>: Always support old API versions</li>
+<li><strong>Nullable Fields</strong>: New fields should be nullable or have defaults</li>
+<li><strong>API Versioning</strong>: Maintain multiple API versions simultaneously</li>
+<li><strong>Feature Flags</strong>: Use toggles to control feature rollout</li>
+<li><strong>Gradual Migration</strong>: Roll out to small percentage first</li>
+<li><strong>Documentation</strong>: Document API changes clearly</li>
+<li><strong>Client Adaptation</strong>: Frontend should handle optional fields</li>
+</ol>
+</details>
+<hr>
+<details>
+<summary><strong>Inter-Microservice Communication & Failure Handling</strong> - <code>Microservices</code></summary>
+<h3 id="problem-statement-4">Problem Statement<a hidden class="anchor" aria-hidden="true" href="#problem-statement-4">#</a></h3>
+<p>How do you communicate between microservices? If one fails, how do you mitigate?</p>
+<h3 id="communication-patterns">Communication Patterns<a hidden class="anchor" aria-hidden="true" href="#communication-patterns">#</a></h3>
+<h4 id="1-synchronous-communication-restgrpc">1. Synchronous Communication (REST/gRPC)<a hidden class="anchor" aria-hidden="true" href="#1-synchronous-communication-restgrpc">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Service</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">OrderService</span> {
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@CircuitBreaker</span>(name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;paymentService&#34;</span>, fallbackMethod <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;paymentFallback&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> PaymentResponse <span style="color:#a6e22e">processPayment</span>(PaymentRequest request) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> restTemplate.<span style="color:#a6e22e">postForObject</span>(
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;http://payment-service:8080/api/v1/payments&#34;</span>,
+</span></span><span style="display:flex;"><span>            request,
+</span></span><span style="display:flex;"><span>            PaymentResponse.<span style="color:#a6e22e">class</span>
+</span></span><span style="display:flex;"><span>        );
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> PaymentResponse <span style="color:#a6e22e">paymentFallback</span>(PaymentRequest request, Exception e) {
+</span></span><span style="display:flex;"><span>        logger.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#34;Payment service failed, using fallback&#34;</span>, e);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> PaymentResponse.<span style="color:#a6e22e">builder</span>()
+</span></span><span style="display:flex;"><span>            .<span style="color:#a6e22e">status</span>(<span style="color:#e6db74">&#34;PENDING&#34;</span>)
+</span></span><span style="display:flex;"><span>            .<span style="color:#a6e22e">message</span>(<span style="color:#e6db74">&#34;Payment processing delayed, will retry later&#34;</span>)
+</span></span><span style="display:flex;"><span>            .<span style="color:#a6e22e">build</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="2-asynchronous-communication-event-driven">2. Asynchronous Communication (Event-Driven)<a hidden class="anchor" aria-hidden="true" href="#2-asynchronous-communication-event-driven">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// Service A publishes event</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Service</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">OrderService</span> {
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Autowired</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> KafkaTemplate<span style="color:#f92672">&lt;</span>String, OrderEvent<span style="color:#f92672">&gt;</span> kafkaTemplate;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">createOrder</span>(CreateOrderRequest request) {
+</span></span><span style="display:flex;"><span>        Order order <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Order();
+</span></span><span style="display:flex;"><span>        orderRepository.<span style="color:#a6e22e">save</span>(order);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        OrderCreatedEvent event <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> OrderCreatedEvent(order);
+</span></span><span style="display:flex;"><span>        kafkaTemplate.<span style="color:#a6e22e">send</span>(<span style="color:#e6db74">&#34;order-events&#34;</span>, event);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Service B subscribes to event</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Service</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">NotificationService</span> {
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@KafkaListener</span>(topics <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;order-events&#34;</span>, groupId <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;notification-service&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">handleOrderCreated</span>(OrderCreatedEvent event) {
+</span></span><span style="display:flex;"><span>        emailService.<span style="color:#a6e22e">sendOrderConfirmation</span>(event.<span style="color:#a6e22e">getOrder</span>());
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="3-retry-mechanism">3. Retry Mechanism<a hidden class="anchor" aria-hidden="true" href="#3-retry-mechanism">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Service</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">OrderService</span> {
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Retryable</span>(
+</span></span><span style="display:flex;"><span>        maxAttempts <span style="color:#f92672">=</span> 3,
+</span></span><span style="display:flex;"><span>        backoff <span style="color:#f92672">=</span> <span style="color:#a6e22e">@Backoff</span>(delay <span style="color:#f92672">=</span> 1000, multiplier <span style="color:#f92672">=</span> 2.<span style="color:#a6e22e">0</span>)
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> PaymentResponse <span style="color:#a6e22e">processPayment</span>(PaymentRequest request) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> paymentServiceClient.<span style="color:#a6e22e">process</span>(request);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Recover</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> PaymentResponse <span style="color:#a6e22e">recoverPaymentProcessing</span>(
+</span></span><span style="display:flex;"><span>            PaymentException e, PaymentRequest request) {
+</span></span><span style="display:flex;"><span>        logger.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#34;Payment processing failed after retries&#34;</span>, e);
+</span></span><span style="display:flex;"><span>        failedPaymentQueue.<span style="color:#a6e22e">add</span>(request);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="failure-mitigation-strategies">Failure Mitigation Strategies<a hidden class="anchor" aria-hidden="true" href="#failure-mitigation-strategies">#</a></h3>
+<table>
+	<thead>
+			<tr>
+					<th>Scenario</th>
+					<th>Solution</th>
+					<th>Implementation</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Service Down</td>
+					<td>Circuit Breaker</td>
+					<td>Resilience4j, Hystrix</td>
+			</tr>
+			<tr>
+					<td>Timeout</td>
+					<td>Timeout + Retry</td>
+					<td>@Timeout, @Retryable</td>
+			</tr>
+			<tr>
+					<td>Partial Failure</td>
+					<td>Saga Pattern</td>
+					<td>Orchestration, Choreography</td>
+			</tr>
+			<tr>
+					<td>Message Loss</td>
+					<td>Dead Letter Queue</td>
+					<td>Kafka, RabbitMQ</td>
+			</tr>
+			<tr>
+					<td>Data Inconsistency</td>
+					<td>Eventual Consistency</td>
+					<td>Event sourcing</td>
+			</tr>
+	</tbody>
+</table>
+<h3 id="key-points-3">Key Points<a hidden class="anchor" aria-hidden="true" href="#key-points-3">#</a></h3>
+<ol>
+<li><strong>Circuit Breaker</strong>: Prevents cascading failures</li>
+<li><strong>Retry Logic</strong>: Handles transient failures</li>
+<li><strong>Timeouts</strong>: Prevents hanging requests</li>
+<li><strong>Async Messaging</strong>: Decouples services</li>
+<li><strong>Fallbacks</strong>: Graceful degradation</li>
+<li><strong>Monitoring</strong>: Alert on failures</li>
+<li><strong>Dead Letter Queue</strong>: Handle failed messages</li>
+</ol>
+</details>
+<hr>
+<details>
+<summary><strong>Microservices vs Monolithic - Real-time Benefits</strong> - <code>Microservices</code></summary>
+<h3 id="real-time-benefits-comparison">Real-time Benefits Comparison<a hidden class="anchor" aria-hidden="true" href="#real-time-benefits-comparison">#</a></h3>
+<h4 id="1-independent-scaling">1. Independent Scaling<a hidden class="anchor" aria-hidden="true" href="#1-independent-scaling">#</a></h4>
+<p><strong>Monolithic:</strong></p>
+<ul>
+<li>Scale entire application even if only one component needs it</li>
+<li>High resource utilization (waste)</li>
+</ul>
+<p><strong>Microservices:</strong></p>
+<ul>
+<li>Scale only the Payment Service based on demand</li>
+<li>Efficient resource utilization</li>
+<li>Cost-effective</li>
+</ul>
+<h4 id="2-independent-deployment">2. Independent Deployment<a hidden class="anchor" aria-hidden="true" href="#2-independent-deployment">#</a></h4>
+<p><strong>Monolithic:</strong></p>
+<ul>
+<li>Deploy entire app for single feature</li>
+<li>Risk: One bug affects entire system</li>
+<li>Downtime required</li>
+</ul>
+<p><strong>Microservices:</strong></p>
+<ul>
+<li>Deploy only Order Service without affecting Payment Service</li>
+<li>Lower risk</li>
+<li>Zero downtime deployment</li>
+</ul>
+<h4 id="3-technology-freedom">3. Technology Freedom<a hidden class="anchor" aria-hidden="true" href="#3-technology-freedom">#</a></h4>
+<p><strong>Monolithic:</strong></p>
+<ul>
+<li>Locked to one tech stack (Java, Spring, PostgreSQL)</li>
+<li>Difficult to adopt new technologies</li>
+</ul>
+<p><strong>Microservices:</strong></p>
+<ul>
+<li>Order Service: Java + Spring</li>
+<li>Payment Service: Node.js + Express</li>
+<li>Notification Service: Python + FastAPI</li>
+</ul>
+<h4 id="4-fault-isolation">4. Fault Isolation<a hidden class="anchor" aria-hidden="true" href="#4-fault-isolation">#</a></h4>
+<p><strong>Monolithic:</strong></p>
+<ul>
+<li>Payment Service bug → Entire system down</li>
+<li>Orders can&rsquo;t be created</li>
+</ul>
+<p><strong>Microservices:</strong></p>
+<ul>
+<li>Payment Service down → Only payment fails</li>
+<li>Orders cached and queued</li>
+<li>Inventory service works independently</li>
+</ul>
+<h4 id="5-database-per-service">5. Database per Service<a hidden class="anchor" aria-hidden="true" href="#5-database-per-service">#</a></h4>
+<p><strong>Monolithic:</strong></p>
+<ul>
+<li>Single database for everything</li>
+<li>Schema changes affect all features</li>
+</ul>
+<p><strong>Microservices:</strong></p>
+<ul>
+<li>Order Service: PostgreSQL (transactional)</li>
+<li>Cache: Redis (fast lookups)</li>
+<li>Search: Elasticsearch (full-text search)</li>
+</ul>
+<h4 id="6-continuous-deployment">6. Continuous Deployment<a hidden class="anchor" aria-hidden="true" href="#6-continuous-deployment">#</a></h4>
+<p><strong>Monolithic:</strong></p>
+<ul>
+<li>Deploy 1-2 times per day</li>
+<li>Full regression testing required</li>
+</ul>
+<p><strong>Microservices:</strong></p>
+<ul>
+<li>Deploy 10+ times per day</li>
+<li>Smaller changes = less risk</li>
+</ul>
+<h3 id="performance-comparison">Performance Comparison<a hidden class="anchor" aria-hidden="true" href="#performance-comparison">#</a></h3>
+<table>
+	<thead>
+			<tr>
+					<th>Metric</th>
+					<th>Monolithic</th>
+					<th>Microservices</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Deployment Time</td>
+					<td>30 minutes</td>
+					<td>5 minutes</td>
+			</tr>
+			<tr>
+					<td>Time to Fix Bug</td>
+					<td>2 hours</td>
+					<td>20 minutes</td>
+			</tr>
+			<tr>
+					<td>New Feature Time</td>
+					<td>3 weeks</td>
+					<td>1 week</td>
+			</tr>
+			<tr>
+					<td>System Availability</td>
+					<td>99.5%</td>
+					<td>99.99%</td>
+			</tr>
+	</tbody>
+</table>
+<h3 id="key-points-4">Key Points<a hidden class="anchor" aria-hidden="true" href="#key-points-4">#</a></h3>
+<ol>
+<li><strong>Independent Scaling</strong>: Scale only what needs it</li>
+<li><strong>Rapid Deployment</strong>: Smaller services = faster updates</li>
+<li><strong>Technology Flexibility</strong>: Choose best tool per service</li>
+<li><strong>Fault Tolerance</strong>: Failures isolated</li>
+<li><strong>Business Agility</strong>: Faster time to market</li>
+</ol>
+</details>
+<hr>
+<details>
+<summary><strong>Single-Person Feature Deployment (Canary Deployment)</strong> - <code>Deployment</code></summary>
+<h3 id="problem-statement-5">Problem Statement<a hidden class="anchor" aria-hidden="true" href="#problem-statement-5">#</a></h3>
+<p>Deploy a feature for a single person or small user group before full rollout.</p>
+<h3 id="canary-deployment-strategy">Canary Deployment Strategy<a hidden class="anchor" aria-hidden="true" href="#canary-deployment-strategy">#</a></h3>
+<h4 id="1-feature-flag-implementation">1. Feature Flag Implementation<a hidden class="anchor" aria-hidden="true" href="#1-feature-flag-implementation">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Service</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FeatureFlagService</span> {
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isFeatureEnabledForUser</span>(String featureName, String userId) {
+</span></span><span style="display:flex;"><span>        FeatureFlag flag <span style="color:#f92672">=</span> repository.<span style="color:#a6e22e">findByName</span>(featureName);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>flag.<span style="color:#a6e22e">isEnabled</span>()) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> flag.<span style="color:#a6e22e">getCanaryUsers</span>().<span style="color:#a6e22e">contains</span>(userId);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@RestController</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/api/v1/orders&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">OrderController</span> {
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@PostMapping</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> ResponseEntity<span style="color:#f92672">&lt;</span>OrderResponse<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">createOrder</span>(
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">@RequestBody</span> CreateOrderRequest request,
+</span></span><span style="display:flex;"><span>            HttpServletRequest httpRequest) {
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        String userId <span style="color:#f92672">=</span> getUserId(httpRequest);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (featureFlag.<span style="color:#a6e22e">isFeatureEnabledForUser</span>(<span style="color:#e6db74">&#34;NEW_CHECKOUT_FLOW&#34;</span>, userId)) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> ResponseEntity.<span style="color:#a6e22e">ok</span>(orderService.<span style="color:#a6e22e">createOrderV2</span>(request));
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> ResponseEntity.<span style="color:#a6e22e">ok</span>(orderService.<span style="color:#a6e22e">createOrderV1</span>(request));
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="2-gradual-rollout-by-percentage">2. Gradual Rollout by Percentage<a hidden class="anchor" aria-hidden="true" href="#2-gradual-rollout-by-percentage">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Service</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CanaryDeploymentService</span> {
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">isFeatureEnabledForUser</span>(String featureName, String userId) {
+</span></span><span style="display:flex;"><span>        CanaryDeployment deployment <span style="color:#f92672">=</span> canaryRepo.<span style="color:#a6e22e">findByFeatureName</span>(featureName);
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (deployment <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Use consistent hashing based on userId</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> userHash <span style="color:#f92672">=</span> Math.<span style="color:#a6e22e">abs</span>(userId.<span style="color:#a6e22e">hashCode</span>()) <span style="color:#f92672">%</span> 100;
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// If rollout is at 10%, enable for users with hash 0-9</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> userHash <span style="color:#f92672">&lt;</span> deployment.<span style="color:#a6e22e">getRolloutPercentage</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="3-kubernetes-canary-deployment">3. Kubernetes Canary Deployment<a hidden class="anchor" aria-hidden="true" href="#3-kubernetes-canary-deployment">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apps/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">order-service-v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">replicas</span>: <span style="color:#ae81ff">9</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">selector</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">matchLabels</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">app</span>: <span style="color:#ae81ff">order-service</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">version</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span>---
+</span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apps/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">order-service-v2</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">replicas</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">selector</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">matchLabels</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">app</span>: <span style="color:#ae81ff">order-service</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">version</span>: <span style="color:#ae81ff">v2</span>
+</span></span></code></pre></div><h4 id="4-traffic-splitting-with-istio">4. Traffic Splitting with Istio<a hidden class="anchor" aria-hidden="true" href="#4-traffic-splitting-with-istio">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">networking.istio.io/v1alpha3</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">VirtualService</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">order-service</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">hosts</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">order-service</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">http</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">route</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">destination</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">host</span>: <span style="color:#ae81ff">order-service</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">subset</span>: <span style="color:#ae81ff">v1</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">weight</span>: <span style="color:#ae81ff">90</span>
+</span></span><span style="display:flex;"><span>    - <span style="color:#f92672">destination</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">host</span>: <span style="color:#ae81ff">order-service</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">subset</span>: <span style="color:#ae81ff">v2</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">weight</span>: <span style="color:#ae81ff">10</span>
+</span></span></code></pre></div><h3 id="deployment-steps">Deployment Steps<a hidden class="anchor" aria-hidden="true" href="#deployment-steps">#</a></h3>
+<ol>
+<li><strong>Step 1</strong>: Deploy to 1 user - Monitor for errors</li>
+<li><strong>Step 2</strong>: Expand to 1% - Continue monitoring</li>
+<li><strong>Step 3</strong>: Expand to 5% - Check metrics</li>
+<li><strong>Step 4</strong>: Expand to 10% - Broader testing</li>
+<li><strong>Step 5</strong>: Expand to 50% - Major traffic</li>
+<li><strong>Step 6</strong>: Full rollout (100%) - Complete migration</li>
+<li><strong>Step 7</strong>: Cleanup old version - Remove v1 deployment</li>
+</ol>
+<h3 id="key-points-5">Key Points<a hidden class="anchor" aria-hidden="true" href="#key-points-5">#</a></h3>
+<ol>
+<li><strong>Feature Flags</strong>: Control rollout without code changes</li>
+<li><strong>Consistent Hashing</strong>: Deterministic user assignment</li>
+<li><strong>Monitoring</strong>: Track errors and performance</li>
+<li><strong>Automated Progression</strong>: Rollout based on health checks</li>
+<li><strong>Quick Rollback</strong>: Revert instantly if issues detected</li>
+<li><strong>Traffic Splitting</strong>: Mix old and new versions</li>
+<li><strong>User Communication</strong>: Alert users of changes</li>
+</ol>
+</details>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/system-design/">System Design</a></li>
+      <li><a href="http://localhost:1313/tags/architecture/">Architecture</a></li>
+      <li><a href="http://localhost:1313/tags/interview/">Interview</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="http://localhost:1313/">Govardhan Dev Blog</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
