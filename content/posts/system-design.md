@@ -254,96 +254,94 @@ public OrderResponse getOrder(String orderId) {
 <details>
 <summary><strong>Microservices - Extending Features Without Breaking Others</strong> - <code>Microservices</code></summary>
 
-### Problem Statement
+### The Actual Problem
 
-One microservice needs new fields (estimated quantity, backup quantity) but other microservices depend on quantity. How do you extend without breaking existing services?
+Frontend sends a request with new fields. One backend microservice wants to use them. Other microservices share the same endpoint or DTO — they should ignore the unknown fields silently.
 
-### Solution: Schema Evolution with Backward Compatibility
+---
 
-#### 1. Add New Fields Without Breaking Existing API
+### Solution: Use @JsonIgnoreProperties to Ignore Unknown Fields
+
+#### Step 1 — Backend ignores unknown fields by default
 
 ```java
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
-@Builder
-public class QuantityResponse {
-    private Long quantity;
-    private LocalDateTime lastUpdated;
-    
-    // New fields - optional with default values
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Long estimatedQuantity;
-    
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Long backupQuantity;
+public class QuantityRequest {
+    private Long quantity;              // existing — all services use this
+    private Long estimatedQuantity;     // new — only product service reads it
+    private Long backupQuantity;        // new — only product service reads it
 }
 ```
 
-#### 2. API Versioning
+Other microservices already using `quantity` will deserialize fine — unknown fields are silently dropped.
+
+---
+
+#### Step 2 — Only the interested service reads new fields
 
 ```java
-// Keep old API intact
-@RestController
-@RequestMapping("/api/v1/products/{productId}")
-public class QuantityControllerV1 {
-    
-    @GetMapping("/quantity")
-    public ResponseEntity<QuantityResponseV1> getQuantity(@PathVariable String productId) {
-        return ResponseEntity.ok(quantityService.getQuantityV1(productId));
+// ProductService — uses new fields
+@Service
+public class ProductService {
+    public void updateInventory(QuantityRequest request) {
+        Long estimated = request.getEstimatedQuantity();  // reads it
+        Long backup = request.getBackupQuantity();        // reads it
+        
+        // Process with extended logic
+        productRepository.saveWithExtendedFields(estimated, backup);
     }
 }
 
-// New API with extended features
-@RestController
-@RequestMapping("/api/v2/products/{productId}")
-public class QuantityControllerV2 {
-    
-    @GetMapping("/quantity")
-    public ResponseEntity<QuantityResponseV2> getQuantity(@PathVariable String productId) {
-        return ResponseEntity.ok(quantityService.getQuantityV2(productId));
+// OrderService — doesn't even reference new fields
+@Service
+public class OrderService {
+    public void processOrder(QuantityRequest request) {
+        Long quantity = request.getQuantity();  // just uses quantity as before
+        // Order processing continues unchanged — nothing breaks
     }
 }
 ```
 
-#### 3. Database Schema Evolution
+---
 
-```sql
-ALTER TABLE product_quantity ADD COLUMN estimated_quantity BIGINT NULL;
-ALTER TABLE product_quantity ADD COLUMN backup_quantity BIGINT NULL;
-```
-
-#### 4. Feature Toggle for Gradual Rollout
+#### Step 3 — Feature flag if rollout needs to be controlled
 
 ```java
 @Service
-public class QuantityService {
+public class ProductService {
     
-    public QuantityResponse getQuantity(String productId, String clientId) {
-        ProductQuantity data = repository.findByProductId(productId);
+    public void updateInventory(QuantityRequest request, String clientId) {
+        Long quantity = request.getQuantity();
         
-        QuantityResponse response = QuantityResponse.builder()
-            .quantity(data.getQuantity())
-            .lastUpdated(data.getUpdatedAt())
-            .build();
-        
-        if (featureToggle.isEnabled("EXTENDED_QUANTITY_FIELDS", clientId)) {
-            response.setEstimatedQuantity(data.getEstimatedQuantity());
-            response.setBackupQuantity(data.getBackupQuantity());
+        if (featureToggle.isEnabled("EXTENDED_QUANTITY", clientId)) {
+            Long estimated = request.getEstimatedQuantity();
+            Long backup = request.getBackupQuantity();
+            // process estimatedQuantity and backupQuantity
+            productRepository.saveWithExtendedFields(quantity, estimated, backup);
+        } else {
+            // Legacy behavior
+            productRepository.save(quantity);
         }
-        
-        return response;
     }
 }
 ```
 
+---
+
+### Key Takeaway
+
+> `@JsonIgnoreProperties(ignoreUnknown = true)` is the core fix. Frontend can send new fields freely — each microservice only reads what it knows about. No versioning needed. No breaking changes.
+
 ### Best Practices
 
-1. **Backward Compatibility**: Always support old API versions
-2. **Nullable Fields**: New fields should be nullable or have defaults
-3. **API Versioning**: Maintain multiple API versions simultaneously
-4. **Feature Flags**: Use toggles to control feature rollout
-5. **Gradual Migration**: Roll out to small percentage first
-6. **Documentation**: Document API changes clearly
-7. **Client Adaptation**: Frontend should handle optional fields
+1. **Ignore Unknown Fields**: Always use `@JsonIgnoreProperties(ignoreUnknown = true)` on request/response DTOs
+2. **Backward Compatible**: Existing services continue working without any code changes
+3. **Optional New Fields**: New fields should be nullable/optional
+4. **Feature Flags**: Control which services actually process new fields
+5. **No API Versioning Needed**: Same endpoint works for all versions
+6. **Independent Adoption**: Services adopt new fields at their own pace
+7. **Gradual Rollout**: Use feature flags to enable new fields gradually per client
 
 </details>
 
