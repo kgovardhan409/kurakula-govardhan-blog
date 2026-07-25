@@ -398,83 +398,80 @@ System design interview questions with detailed explanations. Click on any quest
 <hr>
 <details>
 <summary><strong>Microservices - Extending Features Without Breaking Others</strong> - <code>Microservices</code></summary>
-<h3 id="problem-statement-3">Problem Statement<a hidden class="anchor" aria-hidden="true" href="#problem-statement-3">#</a></h3>
-<p>One microservice needs new fields (estimated quantity, backup quantity) but other microservices depend on quantity. How do you extend without breaking existing services?</p>
-<h3 id="solution-schema-evolution-with-backward-compatibility">Solution: Schema Evolution with Backward Compatibility<a hidden class="anchor" aria-hidden="true" href="#solution-schema-evolution-with-backward-compatibility">#</a></h3>
-<h4 id="1-add-new-fields-without-breaking-existing-api">1. Add New Fields Without Breaking Existing API<a hidden class="anchor" aria-hidden="true" href="#1-add-new-fields-without-breaking-existing-api">#</a></h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Data</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Builder</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">QuantityResponse</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Long quantity;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> LocalDateTime lastUpdated;
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// New fields - optional with default values</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@JsonInclude</span>(JsonInclude.<span style="color:#a6e22e">Include</span>.<span style="color:#a6e22e">NON_NULL</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Long estimatedQuantity;
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@JsonInclude</span>(JsonInclude.<span style="color:#a6e22e">Include</span>.<span style="color:#a6e22e">NON_NULL</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Long backupQuantity;
+<h3 id="the-actual-problem">The Actual Problem<a hidden class="anchor" aria-hidden="true" href="#the-actual-problem">#</a></h3>
+<p>Frontend sends a request with new fields. One backend microservice wants to use them. Other microservices share the same endpoint or DTO — they should ignore the unknown fields silently.</p>
+<hr>
+<h3 id="solution-use-jsonignoreproperties-to-ignore-unknown-fields">Solution: Use @JsonIgnoreProperties to Ignore Unknown Fields<a hidden class="anchor" aria-hidden="true" href="#solution-use-jsonignoreproperties-to-ignore-unknown-fields">#</a></h3>
+<h4 id="step-1--backend-ignores-unknown-fields-by-default">Step 1 — Backend ignores unknown fields by default<a hidden class="anchor" aria-hidden="true" href="#step-1--backend-ignores-unknown-fields-by-default">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@JsonIgnoreProperties</span>(ignoreUnknown <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Data</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">QuantityRequest</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Long quantity;              <span style="color:#75715e">// existing — all services use this</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Long estimatedQuantity;     <span style="color:#75715e">// new — only product service reads it</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Long backupQuantity;        <span style="color:#75715e">// new — only product service reads it</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h4 id="2-api-versioning">2. API Versioning<a hidden class="anchor" aria-hidden="true" href="#2-api-versioning">#</a></h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// Keep old API intact</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@RestController</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/api/v1/products/{productId}&#34;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">QuantityControllerV1</span> {
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@GetMapping</span>(<span style="color:#e6db74">&#34;/quantity&#34;</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> ResponseEntity<span style="color:#f92672">&lt;</span>QuantityResponseV1<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getQuantity</span>(<span style="color:#a6e22e">@PathVariable</span> String productId) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> ResponseEntity.<span style="color:#a6e22e">ok</span>(quantityService.<span style="color:#a6e22e">getQuantityV1</span>(productId));
+</span></span></code></pre></div><p>Other microservices already using <code>quantity</code> will deserialize fine — unknown fields are silently dropped.</p>
+<hr>
+<h4 id="step-2--only-the-interested-service-reads-new-fields">Step 2 — Only the interested service reads new fields<a hidden class="anchor" aria-hidden="true" href="#step-2--only-the-interested-service-reads-new-fields">#</a></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// ProductService — uses new fields</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Service</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ProductService</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">updateInventory</span>(QuantityRequest request) {
+</span></span><span style="display:flex;"><span>        Long estimated <span style="color:#f92672">=</span> request.<span style="color:#a6e22e">getEstimatedQuantity</span>();  <span style="color:#75715e">// reads it</span>
+</span></span><span style="display:flex;"><span>        Long backup <span style="color:#f92672">=</span> request.<span style="color:#a6e22e">getBackupQuantity</span>();        <span style="color:#75715e">// reads it</span>
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Process with extended logic</span>
+</span></span><span style="display:flex;"><span>        productRepository.<span style="color:#a6e22e">saveWithExtendedFields</span>(estimated, backup);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// New API with extended features</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@RestController</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/api/v2/products/{productId}&#34;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">QuantityControllerV2</span> {
-</span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@GetMapping</span>(<span style="color:#e6db74">&#34;/quantity&#34;</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> ResponseEntity<span style="color:#f92672">&lt;</span>QuantityResponseV2<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getQuantity</span>(<span style="color:#a6e22e">@PathVariable</span> String productId) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> ResponseEntity.<span style="color:#a6e22e">ok</span>(quantityService.<span style="color:#a6e22e">getQuantityV2</span>(productId));
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// OrderService — doesn&#39;t even reference new fields</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Service</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">OrderService</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">processOrder</span>(QuantityRequest request) {
+</span></span><span style="display:flex;"><span>        Long quantity <span style="color:#f92672">=</span> request.<span style="color:#a6e22e">getQuantity</span>();  <span style="color:#75715e">// just uses quantity as before</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Order processing continues unchanged — nothing breaks</span>
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h4 id="3-database-schema-evolution">3. Database Schema Evolution<a hidden class="anchor" aria-hidden="true" href="#3-database-schema-evolution">#</a></h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> product_quantity <span style="color:#66d9ef">ADD</span> <span style="color:#66d9ef">COLUMN</span> estimated_quantity BIGINT <span style="color:#66d9ef">NULL</span>;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">ALTER</span> <span style="color:#66d9ef">TABLE</span> product_quantity <span style="color:#66d9ef">ADD</span> <span style="color:#66d9ef">COLUMN</span> backup_quantity BIGINT <span style="color:#66d9ef">NULL</span>;
-</span></span></code></pre></div><h4 id="4-feature-toggle-for-gradual-rollout">4. Feature Toggle for Gradual Rollout<a hidden class="anchor" aria-hidden="true" href="#4-feature-toggle-for-gradual-rollout">#</a></h4>
+</span></span></code></pre></div><hr>
+<h4 id="step-3--feature-flag-if-rollout-needs-to-be-controlled">Step 3 — Feature flag if rollout needs to be controlled<a hidden class="anchor" aria-hidden="true" href="#step-3--feature-flag-if-rollout-needs-to-be-controlled">#</a></h4>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Service</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">QuantityService</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ProductService</span> {
 </span></span><span style="display:flex;"><span>    
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> QuantityResponse <span style="color:#a6e22e">getQuantity</span>(String productId, String clientId) {
-</span></span><span style="display:flex;"><span>        ProductQuantity data <span style="color:#f92672">=</span> repository.<span style="color:#a6e22e">findByProductId</span>(productId);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">updateInventory</span>(QuantityRequest request, String clientId) {
+</span></span><span style="display:flex;"><span>        Long quantity <span style="color:#f92672">=</span> request.<span style="color:#a6e22e">getQuantity</span>();
 </span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        QuantityResponse response <span style="color:#f92672">=</span> QuantityResponse.<span style="color:#a6e22e">builder</span>()
-</span></span><span style="display:flex;"><span>            .<span style="color:#a6e22e">quantity</span>(data.<span style="color:#a6e22e">getQuantity</span>())
-</span></span><span style="display:flex;"><span>            .<span style="color:#a6e22e">lastUpdated</span>(data.<span style="color:#a6e22e">getUpdatedAt</span>())
-</span></span><span style="display:flex;"><span>            .<span style="color:#a6e22e">build</span>();
-</span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (featureToggle.<span style="color:#a6e22e">isEnabled</span>(<span style="color:#e6db74">&#34;EXTENDED_QUANTITY_FIELDS&#34;</span>, clientId)) {
-</span></span><span style="display:flex;"><span>            response.<span style="color:#a6e22e">setEstimatedQuantity</span>(data.<span style="color:#a6e22e">getEstimatedQuantity</span>());
-</span></span><span style="display:flex;"><span>            response.<span style="color:#a6e22e">setBackupQuantity</span>(data.<span style="color:#a6e22e">getBackupQuantity</span>());
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (featureToggle.<span style="color:#a6e22e">isEnabled</span>(<span style="color:#e6db74">&#34;EXTENDED_QUANTITY&#34;</span>, clientId)) {
+</span></span><span style="display:flex;"><span>            Long estimated <span style="color:#f92672">=</span> request.<span style="color:#a6e22e">getEstimatedQuantity</span>();
+</span></span><span style="display:flex;"><span>            Long backup <span style="color:#f92672">=</span> request.<span style="color:#a6e22e">getBackupQuantity</span>();
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// process estimatedQuantity and backupQuantity</span>
+</span></span><span style="display:flex;"><span>            productRepository.<span style="color:#a6e22e">saveWithExtendedFields</span>(quantity, estimated, backup);
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Legacy behavior</span>
+</span></span><span style="display:flex;"><span>            productRepository.<span style="color:#a6e22e">save</span>(quantity);
 </span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> response;
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="best-practices">Best Practices<a hidden class="anchor" aria-hidden="true" href="#best-practices">#</a></h3>
+</span></span></code></pre></div><hr>
+<h3 id="key-takeaway">Key Takeaway<a hidden class="anchor" aria-hidden="true" href="#key-takeaway">#</a></h3>
+<blockquote>
+<p><code>@JsonIgnoreProperties(ignoreUnknown = true)</code> is the core fix. Frontend can send new fields freely — each microservice only reads what it knows about. No versioning needed. No breaking changes.</p>
+</blockquote>
+<h3 id="best-practices">Best Practices<a hidden class="anchor" aria-hidden="true" href="#best-practices">#</a></h3>
 <ol>
-<li><strong>Backward Compatibility</strong>: Always support old API versions</li>
-<li><strong>Nullable Fields</strong>: New fields should be nullable or have defaults</li>
-<li><strong>API Versioning</strong>: Maintain multiple API versions simultaneously</li>
-<li><strong>Feature Flags</strong>: Use toggles to control feature rollout</li>
-<li><strong>Gradual Migration</strong>: Roll out to small percentage first</li>
-<li><strong>Documentation</strong>: Document API changes clearly</li>
-<li><strong>Client Adaptation</strong>: Frontend should handle optional fields</li>
+<li><strong>Ignore Unknown Fields</strong>: Always use <code>@JsonIgnoreProperties(ignoreUnknown = true)</code> on request/response DTOs</li>
+<li><strong>Backward Compatible</strong>: Existing services continue working without any code changes</li>
+<li><strong>Optional New Fields</strong>: New fields should be nullable/optional</li>
+<li><strong>Feature Flags</strong>: Control which services actually process new fields</li>
+<li><strong>No API Versioning Needed</strong>: Same endpoint works for all versions</li>
+<li><strong>Independent Adoption</strong>: Services adopt new fields at their own pace</li>
+<li><strong>Gradual Rollout</strong>: Use feature flags to enable new fields gradually per client</li>
 </ol>
 </details>
 <hr>
 <details>
 <summary><strong>Inter-Microservice Communication & Failure Handling</strong> - <code>Microservices</code></summary>
-<h3 id="problem-statement-4">Problem Statement<a hidden class="anchor" aria-hidden="true" href="#problem-statement-4">#</a></h3>
+<h3 id="problem-statement-3">Problem Statement<a hidden class="anchor" aria-hidden="true" href="#problem-statement-3">#</a></h3>
 <p>How do you communicate between microservices? If one fails, how do you mitigate?</p>
 <h3 id="communication-patterns">Communication Patterns<a hidden class="anchor" aria-hidden="true" href="#communication-patterns">#</a></h3>
 <h4 id="1-synchronous-communication-restgrpc">1. Synchronous Communication (REST/gRPC)<a hidden class="anchor" aria-hidden="true" href="#1-synchronous-communication-restgrpc">#</a></h4>
@@ -712,7 +709,7 @@ System design interview questions with detailed explanations. Click on any quest
 <hr>
 <details>
 <summary><strong>Single-Person Feature Deployment (Canary Deployment)</strong> - <code>Deployment</code></summary>
-<h3 id="problem-statement-5">Problem Statement<a hidden class="anchor" aria-hidden="true" href="#problem-statement-5">#</a></h3>
+<h3 id="problem-statement-4">Problem Statement<a hidden class="anchor" aria-hidden="true" href="#problem-statement-4">#</a></h3>
 <p>Deploy a feature for a single person or small user group before full rollout.</p>
 <h3 id="canary-deployment-strategy">Canary Deployment Strategy<a hidden class="anchor" aria-hidden="true" href="#canary-deployment-strategy">#</a></h3>
 <h4 id="1-feature-flag-implementation">1. Feature Flag Implementation<a hidden class="anchor" aria-hidden="true" href="#1-feature-flag-implementation">#</a></h4>
