@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=61242&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Frontend Interview Questions - Angular, React &amp; JavaScript | Govardhan Dev Blog</title>
+<meta name="keywords" content="Frontend, React, Angular, JavaScript, Interview">
+<meta name="description" content="Quick reference for frontend interview questions (Angular, React, JavaScript) organized by company and topic. Click on any question to expand details.">
+<meta name="author" content="Govardhan Kurakula">
+<link rel="canonical" href="http://localhost:61242/posts/frontend-angular-react-javascript/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:61242/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:61242/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:61242/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:61242/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:61242/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:61242/posts/frontend-angular-react-javascript/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","acceptedAnswer":{"@type":"Answer","text":"Problem Statement What is React Query and what problem does it solve?\nDefinition React Query (now TanStack Query) is a data-fetching / server-state management library for React. It handles fetching, caching, and syncing data from an API — so you stop hand-rolling useEffect + useState fetch logic. …"},"name":"What is React Query?"},{"@type":"Question","acceptedAnswer":{"@type":"Answer","text":"Problem Statement Fetch a user’s data from an API and render it, using React hooks and TypeScript. A common warm-up coding question — it’s really testing async handling, hook usage, and typing discipline.\nAPI: GET https://jsonplaceholder.typicode.com/users/1\n{ \"id\": 1, …"},"name":"Fetch API Data in React with useEffect + useState"}]}
+</script>
+
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="http://localhost:61242/" class="back-button" accesskey="b" title="Back to Home (Alt + B)" aria-label="Back to Home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </a>
+            <a href="http://localhost:61242/" accesskey="h" title="Govardhan Dev Blog (Alt + H)">Govardhan Dev Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul class="header-menu" id="menu">
+        </ul>
+    </nav>
+</header>
+<style>
+    .back-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 8px;
+        color: var(--primary);
+        transition: color 0.3s ease;
+    }
+    
+    .back-button:hover {
+        color: var(--accent);
+    }
+    
+    .back-button svg {
+        width: 20px;
+        height: 20px;
+    }
+</style>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">Posts</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      Frontend Interview Questions - Angular, React &amp; JavaScript
+    </h1>
+    <div class="post-meta">
+
+<span title='2026-08-01 00:00:00 +0000 UTC'>August 1, 2026</span>&nbsp;·&nbsp;<span>3 min</span>&nbsp;·&nbsp;<span>491 words</span>&nbsp;·&nbsp;<span>Govardhan Kurakula</span>
+
+</div>
+  </header> 
+  <div class="post-content md-content"><p>Quick reference for frontend interview questions (Angular, React, JavaScript) organized by company and topic. Click on any question to expand details.</p>
+<hr>
+<details>
+<summary><strong>What is React Query?</strong> - <code>React</code></summary>
+<h3 id="problem-statement">Problem Statement<a hidden class="anchor" aria-hidden="true" href="#problem-statement">#</a></h3>
+<p>What is React Query and what problem does it solve?</p>
+<h3 id="definition">Definition<a hidden class="anchor" aria-hidden="true" href="#definition">#</a></h3>
+<p>React Query (now <strong>TanStack Query</strong>) is a data-fetching / <strong>server-state</strong> management library for React. It handles fetching, caching, and syncing data from an API — so you stop hand-rolling <code>useEffect</code> + <code>useState</code> fetch logic.</p>
+<h3 id="why-not-just-reduxcontext">Why Not Just Redux/Context?<a hidden class="anchor" aria-hidden="true" href="#why-not-just-reduxcontext">#</a></h3>
+<p>Redux/Context manage <strong>client state</strong> (UI state you own). React Query manages <strong>server state</strong> — data that lives on a server, can go stale, and needs refetching. Mixing the two leads to a lot of boilerplate (loading/error flags, manual cache invalidation).</p>
+<h3 id="key-features">Key Features<a hidden class="anchor" aria-hidden="true" href="#key-features">#</a></h3>
+<ul>
+<li><strong>Caching</strong>: dedupes identical requests, serves cached data instantly while refetching in the background (stale-while-revalidate)</li>
+<li><strong>Automatic refetching</strong>: on window focus, network reconnect, or interval</li>
+<li><strong>Retries</strong>: failed requests retry automatically with backoff</li>
+<li><strong>Pagination / Infinite queries</strong>: built-in helpers (<code>useInfiniteQuery</code>)</li>
+<li><strong>Mutations</strong>: <code>useMutation</code> for POST/PUT/DELETE with optimistic updates</li>
+</ul>
+<h3 id="basic-usage">Basic Usage<a hidden class="anchor" aria-hidden="true" href="#basic-usage">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Todos</span>() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">data</span>, <span style="color:#a6e22e">isLoading</span>, <span style="color:#a6e22e">error</span> } <span style="color:#f92672">=</span> <span style="color:#a6e22e">useQuery</span>({
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">queryKey</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;todos&#39;</span>],
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">queryFn</span><span style="color:#f92672">:</span> () =&gt; <span style="color:#a6e22e">fetch</span>(<span style="color:#e6db74">&#39;/api/todos&#39;</span>).<span style="color:#a6e22e">then</span>(<span style="color:#a6e22e">res</span> =&gt; <span style="color:#a6e22e">res</span>.<span style="color:#a6e22e">json</span>()),
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isLoading</span>) <span style="color:#66d9ef">return</span> <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">p</span><span style="color:#f92672">&gt;</span><span style="color:#a6e22e">Loading</span>...<span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/p&gt;;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">error</span>) <span style="color:#66d9ef">return</span> <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">p</span><span style="color:#f92672">&gt;</span>Error<span style="color:#f92672">:</span> {<span style="color:#a6e22e">error</span>.<span style="color:#a6e22e">message</span>}<span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/p&gt;;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">ul</span><span style="color:#f92672">&gt;</span>{<span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">map</span>(<span style="color:#a6e22e">todo</span> =&gt; <span style="color:#f92672">&lt;</span><span style="color:#a6e22e">li</span> <span style="color:#a6e22e">key</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">todo</span>.<span style="color:#a6e22e">id</span>}<span style="color:#f92672">&gt;</span>{<span style="color:#a6e22e">todo</span>.<span style="color:#a6e22e">title</span>}<span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/li&gt;)}&lt;/ul&gt;;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>Companies:</strong> <code>Nike</code></p>
+</details>
+<hr>
+<details>
+<summary><strong>Fetch API Data in React with useEffect + useState</strong> - <code>React</code> | <code>TypeScript</code></summary>
+<h3 id="problem-statement-1">Problem Statement<a hidden class="anchor" aria-hidden="true" href="#problem-statement-1">#</a></h3>
+<p>Fetch a user&rsquo;s data from an API and render it, using React hooks and TypeScript. A common warm-up coding question — it&rsquo;s really testing async handling, hook usage, and typing discipline.</p>
+<p><strong>API:</strong> <code>GET https://jsonplaceholder.typicode.com/users/1</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Leanne Graham&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;username&#34;</span>: <span style="color:#e6db74">&#34;Bret&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;email&#34;</span>: <span style="color:#e6db74">&#34;Sincere@april.biz&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;phone&#34;</span>: <span style="color:#e6db74">&#34;1-770-736-8031 x56442&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;website&#34;</span>: <span style="color:#e6db74">&#34;hildegard.org&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="common-mistakes-under-interview-pressure">Common Mistakes Under Interview Pressure<a hidden class="anchor" aria-hidden="true" href="#common-mistakes-under-interview-pressure">#</a></h3>
+<ul>
+<li>Calling <code>fetch()</code> without <code>await</code> or <code>.json()</code> — you end up storing the unresolved <code>Promise</code>/<code>Response</code> object, not the data</li>
+<li>Declaring an <code>interface</code> inside the component body instead of at module level</li>
+<li>Typing <code>useState</code> as <code>any</code>, losing all type safety</li>
+<li>Malformed <code>useEffect</code> (missing arrow function, stray parens)</li>
+</ul>
+<h3 id="corrected-solution">Corrected Solution<a hidden class="anchor" aria-hidden="true" href="#corrected-solution">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">User</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">id</span>: <span style="color:#66d9ef">number</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">name</span>: <span style="color:#66d9ef">string</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">username</span>: <span style="color:#66d9ef">string</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">email</span>: <span style="color:#66d9ef">string</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">phone</span>: <span style="color:#66d9ef">string</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">website</span>: <span style="color:#66d9ef">string</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">App() {</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> [<span style="color:#a6e22e">user</span>, <span style="color:#a6e22e">setUser</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">useState</span>&lt;<span style="color:#f92672">User</span> <span style="color:#960050;background-color:#1e0010">|</span> <span style="color:#a6e22e">null</span>&gt;(<span style="color:#66d9ef">null</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">getUserData</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">async</span> () <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">response</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">fetch</span>(<span style="color:#e6db74">&#34;https://jsonplaceholder.typicode.com/users/1&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">data</span>: <span style="color:#66d9ef">User</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">json</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">setUser</span>(<span style="color:#a6e22e">data</span>);
+</span></span><span style="display:flex;"><span>  };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">useEffect</span>(() <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">getUserData</span>();
+</span></span><span style="display:flex;"><span>  }, []);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">className</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;App&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">h2</span>&gt;<span style="color:#a6e22e">User</span> <span style="color:#a6e22e">Data</span>&lt;/<span style="color:#f92672">h2</span>&gt;
+</span></span><span style="display:flex;"><span>      {<span style="color:#a6e22e">user</span> <span style="color:#f92672">?</span> (
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#f92672">p</span>&gt;&lt;<span style="color:#f92672">strong</span>&gt;<span style="color:#a6e22e">Name</span><span style="color:#f92672">:</span> {<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">name</span>}&lt;/<span style="color:#f92672">strong</span>&gt;&lt;/<span style="color:#f92672">p</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#f92672">p</span>&gt;&lt;<span style="color:#f92672">strong</span>&gt;<span style="color:#a6e22e">Website</span><span style="color:#f92672">:</span> {<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">website</span>}&lt;/<span style="color:#f92672">strong</span>&gt;&lt;/<span style="color:#f92672">p</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#f92672">p</span>&gt;&lt;<span style="color:#f92672">strong</span>&gt;<span style="color:#a6e22e">Email</span><span style="color:#f92672">:</span> {<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">email</span>}&lt;/<span style="color:#f92672">strong</span>&gt;&lt;/<span style="color:#f92672">p</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#f92672">p</span>&gt;&lt;<span style="color:#f92672">strong</span>&gt;<span style="color:#a6e22e">Phone</span><span style="color:#f92672">:</span> {<span style="color:#a6e22e">user</span>.<span style="color:#a6e22e">phone</span>}&lt;/<span style="color:#f92672">strong</span>&gt;&lt;/<span style="color:#f92672">p</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>      ) <span style="color:#f92672">:</span> (
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">div</span>&gt;<span style="color:#a6e22e">No</span> <span style="color:#a6e22e">data</span>&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>      )}
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="key-points">Key Points<a hidden class="anchor" aria-hidden="true" href="#key-points">#</a></h3>
+<ol>
+<li><strong><code>interface</code> at module level</strong> — not redeclared on every render inside the component</li>
+<li><strong><code>useState&lt;User | null&gt;</code></strong> instead of <code>any</code> — get compile-time safety on every field you access</li>
+<li><strong><code>await</code> both the fetch and <code>.json()</code></strong> — <code>fetch()</code> only resolves the response headers, the body still needs a second async step</li>
+<li><strong>Empty dependency array <code>[]</code></strong> — runs the fetch once, on mount, not on every render</li>
+<li><strong>Bonus (expected in a complete answer):</strong> add an <code>isLoading</code> boolean so &ldquo;still fetching&rdquo; and &ldquo;fetched but empty&rdquo; aren&rsquo;t both shown as &ldquo;No data&rdquo;</li>
+</ol>
+<p><strong>Companies:</strong> <code>Nike</code></p>
+</details>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:61242/tags/frontend/">Frontend</a></li>
+      <li><a href="http://localhost:61242/tags/react/">React</a></li>
+      <li><a href="http://localhost:61242/tags/angular/">Angular</a></li>
+      <li><a href="http://localhost:61242/tags/javascript/">JavaScript</a></li>
+      <li><a href="http://localhost:61242/tags/interview/">Interview</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:61242/posts/system-design/">
+    <span class="title">« Prev</span>
+    <span>System Design Interview Questions</span>
+  </a>
+  <a class="next" href="http://localhost:61242/posts/cloud-aws/">
+    <span class="title">Next »</span>
+    <span>AWS Cloud Interview Questions</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <div class="social-icons" align="center">
+    <a href="https://github.com/kgovardhan409" target="_blank" rel="noopener noreferrer me"
+        title="GitHub">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path
+        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+    </path>
+</svg>
+    </a>
+    <a href="https://www.linkedin.com/in/kgovardhan409/" target="_blank" rel="noopener noreferrer me"
+        title="LinkedIn">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+    <rect x="2" y="9" width="4" height="12"></rect>
+    <circle cx="4" cy="4" r="2"></circle>
+</svg>
+    </a>
+    <a href="https://kgovardhan409.wordpress.com/" target="_blank" rel="noopener noreferrer me"
+        title="Interview Prep Blog">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+    <path
+        d="M21.469 6.825c.84 1.537 1.318 3.3 1.318 5.175 0 3.979-2.156 7.456-5.363 9.325l3.295-9.527c.615-1.54.82-2.771.82-3.864 0-.405-.026-.78-.07-1.11m-7.981.105c.647-.03 1.232-.105 1.232-.105.582-.075.514-.93-.067-.899 0 0-1.755.135-2.88.135-1.064 0-2.85-.15-2.85-.15-.585-.03-.661.855-.075.885 0 0 .54.061 1.125.09l1.68 4.605-2.37 7.08L5.354 6.9c.649-.03 1.234-.1 1.234-.1.585-.075.516-.93-.065-.896 0 0-1.746.138-2.874.138-.2 0-.438-.008-.69-.015C4.911 3.15 8.235 1.215 12 1.215c2.809 0 5.365 1.072 7.286 2.833-.046-.003-.091-.009-.141-.009-1.06 0-1.812.923-1.812 1.914 0 .89.513 1.643 1.06 2.531.411.72.89 1.643.89 2.977 0 .915-.354 1.994-.821 3.479l-1.075 3.585-3.9-11.61.001.014zM12 22.784c-1.059 0-2.081-.153-3.048-.437l3.237-9.406 3.315 9.087c.024.053.05.101.078.149-1.12.393-2.325.609-3.582.609M1.211 12c0-1.564.336-3.05.935-4.39L7.29 21.709C3.694 19.96 1.212 16.271 1.211 12M12 0C5.385 0 0 5.385 0 12s5.385 12 12 12 12-5.385 12-12S18.615 0 12 0" />
+</svg>
+    </a>
+    <a href="https://kgovardhan409.github.io/kgovardhan_portfolio/" target="_blank" rel="noopener noreferrer me"
+        title="Portfolio">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+</svg>
+    </a>
+    <a href="mailto:kgovardhan409@gmail.com" class="email-trigger" data-email="kgovardhan409@gmail.com" rel="me"
+        title="Email">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 21" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+    <polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+    </a>
+</div>
+
+        <span>&copy; 2026 <a href="http://localhost:61242/">Govardhan Dev Blog</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<div id="email-popup-backdrop" class="email-popup-backdrop hidden">
+    <div class="email-popup" role="dialog" aria-modal="true" aria-labelledby="email-popup-title">
+        <p id="email-popup-title">Send an email to <strong id="email-popup-address"></strong>?</p>
+        <div class="email-popup-actions">
+            <a id="email-popup-send" class="email-popup-btn email-popup-btn-primary" href="#">Send Email</a>
+            <button type="button" id="email-popup-copy" class="email-popup-btn">Copy Address</button>
+            <button type="button" id="email-popup-close" class="email-popup-btn">Cancel</button>
+        </div>
+        <p id="email-popup-copied" class="email-popup-copied hidden">Copied!</p>
+    </div>
+</div>
+<style>
+    .email-popup-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+    }
+    .email-popup-backdrop.hidden {
+        display: none;
+    }
+    .email-popup {
+        background: var(--entry);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 1.5rem;
+        max-width: 90vw;
+        width: 360px;
+        text-align: center;
+        color: var(--primary);
+    }
+    .email-popup-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+        margin-top: 1rem;
+    }
+    .email-popup-btn {
+        border: 1px solid var(--border);
+        background: var(--theme);
+        color: var(--primary);
+        border-radius: 6px;
+        padding: 0.4rem 0.9rem;
+        cursor: pointer;
+        font-size: 0.9rem;
+        text-decoration: none;
+    }
+    .email-popup-btn:hover {
+        background: var(--tertiary);
+    }
+    .email-popup-btn-primary {
+        background: var(--primary);
+        color: var(--theme);
+        border-color: var(--primary);
+    }
+    .email-popup-btn-primary:hover {
+        opacity: 0.85;
+    }
+    .email-popup-copied {
+        margin: 0.75rem 0 0;
+        font-size: 0.85rem;
+        color: var(--secondary);
+    }
+    .email-popup-copied.hidden {
+        display: none;
+    }
+</style>
+<script>
+    (function () {
+        const backdrop = document.getElementById("email-popup-backdrop");
+        const addressEl = document.getElementById("email-popup-address");
+        const sendBtn = document.getElementById("email-popup-send");
+        const copyBtn = document.getElementById("email-popup-copy");
+        const closeBtn = document.getElementById("email-popup-close");
+        const copiedMsg = document.getElementById("email-popup-copied");
+        let currentEmail = "";
+
+        function openPopup(email) {
+            currentEmail = email;
+            addressEl.textContent = email;
+            sendBtn.href = "mailto:" + email;
+            copiedMsg.classList.add("hidden");
+            backdrop.classList.remove("hidden");
+        }
+
+        function closePopup() {
+            backdrop.classList.add("hidden");
+        }
+
+        document.querySelectorAll(".email-trigger").forEach(function (link) {
+            link.addEventListener("click", function (e) {
+                e.preventDefault();
+                openPopup(link.dataset.email);
+            });
+        });
+
+        closeBtn.addEventListener("click", closePopup);
+        backdrop.addEventListener("click", function (e) {
+            if (e.target === backdrop) closePopup();
+        });
+
+        copyBtn.addEventListener("click", function () {
+            navigator.clipboard.writeText(currentEmail).then(function () {
+                copiedMsg.classList.remove("hidden");
+            });
+        });
+    })();
+</script>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

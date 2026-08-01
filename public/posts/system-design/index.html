@@ -1,25 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto" data-theme="auto">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=61242&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="noindex, nofollow">
 <title>System Design Interview Questions | Govardhan Dev Blog</title>
 <meta name="keywords" content="System Design, Architecture, Interview">
-<meta name="description" content="System Design Interview Questions Repository
-System design interview questions with detailed explanations. Click on any question to expand details.">
-<meta name="author" content="">
-<link rel="canonical" href="http://localhost:1313/posts/system-design/">
+<meta name="description" content="System design interview questions with detailed explanations. Click on any question to expand details.">
+<meta name="author" content="Govardhan Kurakula">
+<link rel="canonical" href="http://localhost:61242/posts/system-design/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.cd9298b33628769aa1bc1acebbbfd7aa11ce81dfe03484d479e1907760249a1d.css" integrity="sha256-zZKYszYodpqhvBrOu7/XqhHOgd/gNITUeeGQd2Akmh0=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<link rel="icon" href="http://localhost:61242/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:61242/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:61242/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:61242/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:61242/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/system-design/">
+<link rel="alternate" hreflang="en" href="http://localhost:61242/posts/system-design/">
 <noscript>
     <style>
         #theme-toggle,
@@ -66,18 +65,22 @@ System design interview questions with detailed explanations. Click on any quest
     }
 
 </script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","acceptedAnswer":{"@type":"Answer","text":"Problem Statement Design a scalable Order Management System that handles order creation, processing, and tracking. The system should support multiple services and handle high traffic.\nKey Requirements Handle concurrent order creation Support order tracking and status updates Integrate with payment, …"},"name":"Design an Order Management System"},{"@type":"Question","acceptedAnswer":{"@type":"Answer","text":"Problem Statement What should be cached in an Order Management System? What TTL should products have?\nWhat to Cache 1. Product Information Why Cache:\nHigh read-to-write ratio Frequently accessed during order creation Reduces database load TTL: 1-2 hours (products change frequently but not real-time) …"},"name":"Caching Strategy"},{"@type":"Question","acceptedAnswer":{"@type":"Answer","text":"Problem Statement What is a good API response time? How would you analyze and improve API performance?\nGood Response Time Benchmarks API Type Target Acceptable Poor GET (cached) \u003c 50ms \u003c 100ms \u003e 500ms GET (DB) \u003c 200ms \u003c 500ms \u003e 1s POST/PUT \u003c 300ms \u003c 1s \u003e 2s Complex Query …"},"name":"API Performance Analysis"},{"@type":"Question","acceptedAnswer":{"@type":"Answer","text":"The Actual Problem Frontend sends a request with new fields. One backend microservice wants to use them. Other microservices share the same endpoint or DTO — they should ignore the unknown fields silently.\nSolution: Use @JsonIgnoreProperties to Ignore Unknown Fields Step 1 — Backend ignores unknown …"},"name":"Microservices - Extending Features Without Breaking Others"},{"@type":"Question","acceptedAnswer":{"@type":"Answer","text":"Problem Statement How do you communicate between microservices? If one fails, how do you mitigate?\nCommunication Patterns 1. Synchronous Communication (REST/gRPC) @Service public class OrderService { @CircuitBreaker(name = \"paymentService\", fallbackMethod = \"paymentFallback\") public …"},"name":"Inter-Microservice Communication \u0026 Failure Handling"},{"@type":"Question","acceptedAnswer":{"@type":"Answer","text":"Real-time Benefits Comparison 1. Independent Scaling Monolithic:\nScale entire application even if only one component needs it High resource utilization (waste) Microservices:\nScale only the Payment Service based on demand Efficient resource utilization Cost-effective 2. Independent Deployment …"},"name":"Microservices vs Monolithic - Real-time Benefits"},{"@type":"Question","acceptedAnswer":{"@type":"Answer","text":"Problem Statement Deploy a feature for a single person or small user group before full rollout.\nCanary Deployment Strategy 1. Feature Flag Implementation @Service public class FeatureFlagService { public boolean isFeatureEnabledForUser(String featureName, String userId) { FeatureFlag flag = …"},"name":"Single-Person Feature Deployment (Canary Deployment)"},{"@type":"Question","acceptedAnswer":{"@type":"Answer","text":"Problem Statement How do monolithic and microservices architectures compare overall? (Broader than just the real-time benefits covered above.)\nComparison Aspect Monolithic Microservices Codebase Single, unified Multiple, independent Deployment Whole app deployed together Each service deployed …"},"name":"Monolithic vs Microservices — General Comparison"},{"@type":"Question","acceptedAnswer":{"@type":"Answer","text":"Problem Statement What design patterns keep microservices reliable, and which one fits a partial-failure scenario across services (e.g., one service’s update needs to roll back if a downstream step fails)?\nKey Patterns Pattern Solves One-liner Saga Distributed transactions Break a transaction …"},"name":"Common Microservices Design Patterns"},{"@type":"Question","acceptedAnswer":{"@type":"Answer","text":"Problem Statement What is a rate limiter, and how would you implement one?\nDefinition A rate limiter caps how many requests a client (user/IP/API key) can make in a given time window — protects the system from abuse, traffic spikes, and runaway clients.\nCommon Algorithms Algorithm How it Works …"},"name":"What is Rate Limiting?"},{"@type":"Question","acceptedAnswer":{"@type":"Answer","text":"Problem Statement Interviewers often ask you to walk through a recent piece of work you liked — they’re checking depth of ownership and technical decision-making, not just “what” you built.\nHow to Structure the Answer (STAR) Situation: 1-2 lines of context — what was the …"},"name":"Describe a Recent Task You Enjoyed Working On"},{"@type":"Question","acceptedAnswer":{"@type":"Answer","text":"Problem Statement Design the Create Order API for an e-commerce Order Service — the service split, DB choice, request/response contract, and how you’d version the API as it evolves.\nService Breakdown OrderService — owns order creation and tracking PaymentService — handles payment processing …"},"name":"Order Service — API Design \u0026 Versioning"}]}
+</script>
+
 </head>
 <body id="top">
     <header class="header">
     <nav class="header-nav">
         <div class="logo">
-            <a href="http://localhost:1313/" class="back-button" accesskey="b" title="Back to Home (Alt + B)" aria-label="Back to Home">
+            <a href="http://localhost:61242/" class="back-button" accesskey="b" title="Back to Home (Alt + B)" aria-label="Back to Home">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="19" y1="12" x2="5" y2="12"></line>
                     <polyline points="12 19 5 12 12 5"></polyline>
                 </svg>
             </a>
-            <a href="http://localhost:1313/" accesskey="h" title="Govardhan Dev Blog (Alt + H)">Govardhan Dev Blog</a>
+            <a href="http://localhost:61242/" accesskey="h" title="Govardhan Dev Blog (Alt + H)">Govardhan Dev Blog</a>
             <div class="logo-switches">
                 <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
@@ -128,18 +131,28 @@ System design interview questions with detailed explanations. Click on any quest
 
 <article class="post-single">
   <header class="post-header">
-    
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">Posts</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
     <h1 class="post-title entry-hint-parent">
       System Design Interview Questions
     </h1>
     <div class="post-meta">
 
-<span title='2026-06-16 00:00:00 +0000 UTC'>June 16, 2026</span>
+<span title='2026-06-16 00:00:00 +0000 UTC'>June 16, 2026</span>&nbsp;·&nbsp;<span title='2026-08-01 00:00:00 +0000 UTC'>Updated August 1, 2026</span>&nbsp;·&nbsp;<span>14 min</span>&nbsp;·&nbsp;<span>2859 words</span>&nbsp;·&nbsp;<span>Govardhan Kurakula</span>
 
 </div>
   </header> 
-  <div class="post-content md-content"><h1 id="system-design-interview-questions-repository">System Design Interview Questions Repository<a hidden class="anchor" aria-hidden="true" href="#system-design-interview-questions-repository">#</a></h1>
-<p>System design interview questions with detailed explanations. Click on any question to expand details.</p>
+  <div class="post-content md-content"><p>System design interview questions with detailed explanations. Click on any question to expand details.</p>
 <hr>
 <details>
 <summary><strong>Design an Order Management System</strong> - <code>System Design</code></summary>
@@ -203,6 +216,7 @@ System design interview questions with detailed explanations. Click on any quest
 <li><strong>Service Communication</strong>: Synchronous (REST/gRPC) for critical operations, asynchronous (Kafka) for events</li>
 <li><strong>Monitoring &amp; Logging</strong>: All state changes are tracked and logged</li>
 </ol>
+<p><strong>Companies:</strong> <code>Nike</code></p>
 </details>
 <hr>
 <details>
@@ -311,6 +325,7 @@ System design interview questions with detailed explanations. Click on any quest
 <li><strong>Monitoring</strong>: Track cache hit rates and adjust TTLs accordingly</li>
 <li><strong>Fallback</strong>: Always handle cache misses gracefully</li>
 </ol>
+<p><strong>Companies:</strong> <code>Nike</code></p>
 </details>
 <hr>
 <details>
@@ -394,6 +409,7 @@ System design interview questions with detailed explanations. Click on any quest
 <li><strong>Caching</strong>: Reduce database hits for frequently accessed data</li>
 <li><strong>Distributed tracing</strong>: Understand request flow across services</li>
 </ol>
+<p><strong>Companies:</strong> <code>Nike</code></p>
 </details>
 <hr>
 <details>
@@ -467,6 +483,7 @@ System design interview questions with detailed explanations. Click on any quest
 <li><strong>Independent Adoption</strong>: Services adopt new fields at their own pace</li>
 <li><strong>Gradual Rollout</strong>: Use feature flags to enable new fields gradually per client</li>
 </ol>
+<p><strong>Companies:</strong> <code>Nike</code></p>
 </details>
 <hr>
 <details>
@@ -588,6 +605,7 @@ System design interview questions with detailed explanations. Click on any quest
 <li><strong>Monitoring</strong>: Alert on failures</li>
 <li><strong>Dead Letter Queue</strong>: Handle failed messages</li>
 </ol>
+<p><strong>Companies:</strong> <code>Nike</code></p>
 </details>
 <hr>
 <details>
@@ -705,6 +723,7 @@ System design interview questions with detailed explanations. Click on any quest
 <li><strong>Fault Tolerance</strong>: Failures isolated</li>
 <li><strong>Business Agility</strong>: Faster time to market</li>
 </ol>
+<p><strong>Companies:</strong> <code>Nike</code></p>
 </details>
 <hr>
 <details>
@@ -823,22 +842,350 @@ System design interview questions with detailed explanations. Click on any quest
 <li><strong>Traffic Splitting</strong>: Mix old and new versions</li>
 <li><strong>User Communication</strong>: Alert users of changes</li>
 </ol>
+<p><strong>Companies:</strong> <code>Nike</code></p>
+</details>
+<hr>
+<details>
+<summary><strong>Monolithic vs Microservices — General Comparison</strong> - <code>Architecture</code></summary>
+<h3 id="problem-statement-5">Problem Statement<a hidden class="anchor" aria-hidden="true" href="#problem-statement-5">#</a></h3>
+<p>How do monolithic and microservices architectures compare overall? (Broader than just the real-time benefits covered above.)</p>
+<h3 id="comparison">Comparison<a hidden class="anchor" aria-hidden="true" href="#comparison">#</a></h3>
+<table>
+	<thead>
+			<tr>
+					<th>Aspect</th>
+					<th>Monolithic</th>
+					<th>Microservices</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td>Codebase</td>
+					<td>Single, unified</td>
+					<td>Multiple, independent</td>
+			</tr>
+			<tr>
+					<td>Deployment</td>
+					<td>Whole app deployed together</td>
+					<td>Each service deployed independently</td>
+			</tr>
+			<tr>
+					<td>Scaling</td>
+					<td>Scale entire app</td>
+					<td>Scale individual services</td>
+			</tr>
+			<tr>
+					<td>Tech Stack</td>
+					<td>One stack for everything</td>
+					<td>Different stack per service</td>
+			</tr>
+			<tr>
+					<td>Data</td>
+					<td>Single shared database</td>
+					<td>Database per service</td>
+			</tr>
+			<tr>
+					<td>Team Structure</td>
+					<td>One team, shared codebase</td>
+					<td>Small teams own individual services</td>
+			</tr>
+			<tr>
+					<td>Communication</td>
+					<td>In-process function calls</td>
+					<td>Network calls (REST/gRPC/events)</td>
+			</tr>
+			<tr>
+					<td>Complexity</td>
+					<td>Simple to start, hard to maintain at scale</td>
+					<td>Ops overhead (discovery, tracing) but easier to scale a team</td>
+			</tr>
+			<tr>
+					<td>Fault Isolation</td>
+					<td>One bug can crash the app</td>
+					<td>Failures isolated to a service</td>
+			</tr>
+	</tbody>
+</table>
+<h3 id="when-to-choose-which">When to Choose Which<a hidden class="anchor" aria-hidden="true" href="#when-to-choose-which">#</a></h3>
+<ul>
+<li><strong>Monolith:</strong> small team, early-stage product, need to move fast without ops overhead</li>
+<li><strong>Microservices:</strong> large team, need independent scaling/deployment, different parts of the system have very different load or tech needs</li>
+</ul>
+<p><strong>Companies:</strong> <code>Nike</code></p>
+</details>
+<hr>
+<details>
+<summary><strong>Common Microservices Design Patterns</strong> - <code>Microservices</code> | <code>Patterns</code></summary>
+<h3 id="problem-statement-6">Problem Statement<a hidden class="anchor" aria-hidden="true" href="#problem-statement-6">#</a></h3>
+<p>What design patterns keep microservices reliable, and which one fits a partial-failure scenario across services (e.g., one service&rsquo;s update needs to roll back if a downstream step fails)?</p>
+<h3 id="key-patterns">Key Patterns<a hidden class="anchor" aria-hidden="true" href="#key-patterns">#</a></h3>
+<table>
+	<thead>
+			<tr>
+					<th>Pattern</th>
+					<th>Solves</th>
+					<th>One-liner</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>Saga</strong></td>
+					<td>Distributed transactions</td>
+					<td>Break a transaction into local steps, each with a compensating action if a later step fails. Two flavors: <strong>Choreography</strong> (services react to each other&rsquo;s events) and <strong>Orchestration</strong> (a central coordinator drives the steps)</td>
+			</tr>
+			<tr>
+					<td><strong>Circuit Breaker</strong></td>
+					<td>Cascading failures</td>
+					<td>Trip open after N failures, fail fast instead of hammering a dead dependency, retry after a cooldown</td>
+			</tr>
+			<tr>
+					<td><strong>Bulkhead</strong></td>
+					<td>One overloaded dependency starving others</td>
+					<td>Isolate resources (thread pools/connections) per dependency</td>
+			</tr>
+			<tr>
+					<td><strong>API Gateway</strong></td>
+					<td>Clients calling many services directly</td>
+					<td>Single entry point for routing, auth, rate limiting</td>
+			</tr>
+			<tr>
+					<td><strong>CQRS</strong></td>
+					<td>Read/write models with different needs</td>
+					<td>Separate write model from read model, often different stores</td>
+			</tr>
+			<tr>
+					<td><strong>Event Sourcing</strong></td>
+					<td>Need full audit/history of state changes</td>
+					<td>Store state as a sequence of events, not just the current row</td>
+			</tr>
+			<tr>
+					<td><strong>Strangler Fig</strong></td>
+					<td>Migrating a monolith incrementally</td>
+					<td>Route traffic for a feature to the new service while the rest still hits the monolith</td>
+			</tr>
+	</tbody>
+</table>
+<h3 id="best-fit-for-partial-failure--distributed-transaction-issues">Best Fit for Partial-Failure / Distributed-Transaction Issues<a hidden class="anchor" aria-hidden="true" href="#best-fit-for-partial-failure--distributed-transaction-issues">#</a></h3>
+<p><strong>Saga pattern</strong> — the go-to when one microservice&rsquo;s action needs to be safely rolled back if a downstream step fails, without a distributed lock/2PC.</p>
+<p><strong>Companies:</strong> <code>Nike</code></p>
+</details>
+<hr>
+<details>
+<summary><strong>What is Rate Limiting?</strong> - <code>API Design</code></summary>
+<h3 id="problem-statement-7">Problem Statement<a hidden class="anchor" aria-hidden="true" href="#problem-statement-7">#</a></h3>
+<p>What is a rate limiter, and how would you implement one?</p>
+<h3 id="definition">Definition<a hidden class="anchor" aria-hidden="true" href="#definition">#</a></h3>
+<p>A rate limiter caps how many requests a client (user/IP/API key) can make in a given time window — protects the system from abuse, traffic spikes, and runaway clients.</p>
+<h3 id="common-algorithms">Common Algorithms<a hidden class="anchor" aria-hidden="true" href="#common-algorithms">#</a></h3>
+<table>
+	<thead>
+			<tr>
+					<th>Algorithm</th>
+					<th>How it Works</th>
+					<th>Trade-off</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>Token Bucket</strong></td>
+					<td>Bucket refills at a fixed rate; each request consumes a token</td>
+					<td>Allows bursts up to bucket size</td>
+			</tr>
+			<tr>
+					<td><strong>Leaky Bucket</strong></td>
+					<td>Requests queued, processed at a fixed rate</td>
+					<td>Smooths bursts but adds latency</td>
+			</tr>
+			<tr>
+					<td><strong>Fixed Window Counter</strong></td>
+					<td>Count requests per fixed window (e.g., per minute)</td>
+					<td>Simple, but allows 2x burst at window edges</td>
+			</tr>
+			<tr>
+					<td><strong>Sliding Window Log/Counter</strong></td>
+					<td>Tracks timestamps in a rolling window</td>
+					<td>More accurate, slightly more memory</td>
+			</tr>
+	</tbody>
+</table>
+<h3 id="simple-token-bucket">Simple Token Bucket<a hidden class="anchor" aria-hidden="true" href="#simple-token-bucket">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RateLimiter</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> capacity;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">double</span> tokens;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">double</span> refillRatePerSec;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">long</span> lastRefillTimestamp;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">synchronized</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">allowRequest</span>() {
+</span></span><span style="display:flex;"><span>        refill();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (tokens <span style="color:#f92672">&gt;=</span> 1) {
+</span></span><span style="display:flex;"><span>            tokens <span style="color:#f92672">-=</span> 1;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">refill</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span> now <span style="color:#f92672">=</span> System.<span style="color:#a6e22e">currentTimeMillis</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">double</span> secondsElapsed <span style="color:#f92672">=</span> (now <span style="color:#f92672">-</span> lastRefillTimestamp) <span style="color:#f92672">/</span> 1000.<span style="color:#a6e22e">0</span>;
+</span></span><span style="display:flex;"><span>        tokens <span style="color:#f92672">=</span> Math.<span style="color:#a6e22e">min</span>(capacity, tokens <span style="color:#f92672">+</span> secondsElapsed <span style="color:#f92672">*</span> refillRatePerSec);
+</span></span><span style="display:flex;"><span>        lastRefillTimestamp <span style="color:#f92672">=</span> now;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>At scale, this is usually centralized with <strong>Redis</strong> (<code>INCR</code> + <code>EXPIRE</code>, or a sorted set for sliding window) so all app instances share the same counter.</p>
+<p><strong>Companies:</strong> <code>Nike</code></p>
+</details>
+<hr>
+<details>
+<summary><strong>Describe a Recent Task You Enjoyed Working On</strong> - <code>Behavioral</code></summary>
+<h3 id="problem-statement-8">Problem Statement<a hidden class="anchor" aria-hidden="true" href="#problem-statement-8">#</a></h3>
+<p>Interviewers often ask you to walk through a recent piece of work you liked — they&rsquo;re checking depth of ownership and technical decision-making, not just &ldquo;what&rdquo; you built.</p>
+<h3 id="how-to-structure-the-answer-star">How to Structure the Answer (STAR)<a hidden class="anchor" aria-hidden="true" href="#how-to-structure-the-answer-star">#</a></h3>
+<ul>
+<li><strong>Situation:</strong> 1-2 lines of context — what was the project/problem</li>
+<li><strong>Task:</strong> What was <em>your</em> specific responsibility</li>
+<li><strong>Action:</strong> The technical decisions you made and why — this is what they&rsquo;re really listening for (trade-offs, alternatives considered)</li>
+<li><strong>Result:</strong> Measurable outcome — performance gain, bug reduction, time saved, business impact</li>
+</ul>
+<h3 id="template-to-fill-in-before-your-next-interview">Template to Fill In Before Your Next Interview<a hidden class="anchor" aria-hidden="true" href="#template-to-fill-in-before-your-next-interview">#</a></h3>
+<blockquote>
+<p>&ldquo;Recently I worked on <strong>[feature/system]</strong>, where the challenge was <strong>[problem]</strong>. I chose to <strong>[approach]</strong> over <strong>[alternative]</strong> because <strong>[reasoning/trade-off]</strong>. It resulted in <strong>[measurable outcome]</strong>, and what I liked about it was <strong>[the specific technical challenge you found interesting]</strong>.&rdquo;</p>
+</blockquote>
+<blockquote>
+<p>This one needs your own specifics — swap in an actual recent task before the interview.</p>
+</blockquote>
+<p><strong>Companies:</strong> <code>Nike</code></p>
+</details>
+<hr>
+<details>
+<summary><strong>Order Service — API Design & Versioning</strong> - <code>API Design</code> | <code>System Design</code></summary>
+<h3 id="problem-statement-9">Problem Statement<a hidden class="anchor" aria-hidden="true" href="#problem-statement-9">#</a></h3>
+<p>Design the <code>Create Order</code> API for an e-commerce Order Service — the service split, DB choice, request/response contract, and how you&rsquo;d version the API as it evolves.</p>
+<h3 id="service-breakdown">Service Breakdown<a hidden class="anchor" aria-hidden="true" href="#service-breakdown">#</a></h3>
+<ul>
+<li><strong>OrderService</strong> — owns order creation and tracking</li>
+<li><strong>PaymentService</strong> — handles payment processing</li>
+<li><strong>NotificationService</strong> — sends order confirmations</li>
+</ul>
+<h3 id="data-store-sql-postgresql-not-nosql">Data Store: SQL (PostgreSQL), not NoSQL<a hidden class="anchor" aria-hidden="true" href="#data-store-sql-postgresql-not-nosql">#</a></h3>
+<p>Orders and payments need <strong>ACID transactions</strong> and relational integrity between an order and its payment — a natural fit for a relational model over a document store. Core tables: <code>OrderTable</code>, <code>PaymentHistory</code>.</p>
+<h3 id="api-contract">API Contract<a hidden class="anchor" aria-hidden="true" href="#api-contract">#</a></h3>
+<p><strong><code>POST /createOrder</code></strong></p>
+<p>Request:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;quantity&#34;</span>: <span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;productId&#34;</span>: <span style="color:#e6db74">&#34;P12345&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;userId&#34;</span>: <span style="color:#ae81ff">1001</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>createdTimestamp</code> is set server-side — never trust a client-supplied timestamp.</p>
+<p>Response:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;orderStatus&#34;</span>: <span style="color:#e6db74">&#34;ORDER_SUCCESS | PAYMENT_FAILED | PAYMENT_PROCESSING | FAILED&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;orderDateTime&#34;</span>: <span style="color:#e6db74">&#34;2026-08-01T10:00:00Z&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;quantity&#34;</span>: <span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;price&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;discount&#34;</span>: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;tax&#34;</span>: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;total&#34;</span>: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;productDetails&#34;</span>: { <span style="color:#f92672">&#34;productId&#34;</span>: <span style="color:#e6db74">&#34;P12345&#34;</span>, <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;...&#34;</span> }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="api-versioning-options">API Versioning Options<a hidden class="anchor" aria-hidden="true" href="#api-versioning-options">#</a></h3>
+<table>
+	<thead>
+			<tr>
+					<th>Approach</th>
+					<th>How</th>
+					<th>Trade-off</th>
+			</tr>
+	</thead>
+	<tbody>
+			<tr>
+					<td><strong>URL Versioning</strong></td>
+					<td><code>/createOrder/v2</code></td>
+					<td>Explicit, easy to route and monitor, but clients must actively migrate</td>
+			</tr>
+			<tr>
+					<td><strong>Feature Flag</strong></td>
+					<td>Same endpoint, gate new fields/behavior per user or cohort</td>
+					<td>No client migration needed, gradual rollout — but adds branching logic inside the service</td>
+			</tr>
+	</tbody>
+</table>
+<h3 id="caching">Caching<a hidden class="anchor" aria-hidden="true" href="#caching">#</a></h3>
+<p>Cache the read-heavy, slow-changing inputs to order creation — product details, pricing — not the order itself, which is write-heavy and must stay strongly consistent. See the Caching Strategy question above for per-resource TTLs.</p>
+<p><strong>Companies:</strong> <code>Nike</code></p>
 </details>
 
   </div>
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="http://localhost:1313/tags/system-design/">System Design</a></li>
-      <li><a href="http://localhost:1313/tags/architecture/">Architecture</a></li>
-      <li><a href="http://localhost:1313/tags/interview/">Interview</a></li>
+      <li><a href="http://localhost:61242/tags/system-design/">System Design</a></li>
+      <li><a href="http://localhost:61242/tags/architecture/">Architecture</a></li>
+      <li><a href="http://localhost:61242/tags/interview/">Interview</a></li>
     </ul>
+<nav class="paginav">
+  <a class="prev" href="http://localhost:61242/posts/data-structures-algorithms/">
+    <span class="title">« Prev</span>
+    <span>DSA Interview Questions</span>
+  </a>
+  <a class="next" href="http://localhost:61242/posts/frontend-angular-react-javascript/">
+    <span class="title">Next »</span>
+    <span>Frontend Interview Questions - Angular, React &amp; JavaScript</span>
+  </a>
+</nav>
+
   </footer>
 </article>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/">Govardhan Dev Blog</a></span> · 
+    <div class="social-icons" align="center">
+    <a href="https://github.com/kgovardhan409" target="_blank" rel="noopener noreferrer me"
+        title="GitHub">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path
+        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+    </path>
+</svg>
+    </a>
+    <a href="https://www.linkedin.com/in/kgovardhan409/" target="_blank" rel="noopener noreferrer me"
+        title="LinkedIn">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+    <rect x="2" y="9" width="4" height="12"></rect>
+    <circle cx="4" cy="4" r="2"></circle>
+</svg>
+    </a>
+    <a href="https://kgovardhan409.wordpress.com/" target="_blank" rel="noopener noreferrer me"
+        title="Interview Prep Blog">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+    <path
+        d="M21.469 6.825c.84 1.537 1.318 3.3 1.318 5.175 0 3.979-2.156 7.456-5.363 9.325l3.295-9.527c.615-1.54.82-2.771.82-3.864 0-.405-.026-.78-.07-1.11m-7.981.105c.647-.03 1.232-.105 1.232-.105.582-.075.514-.93-.067-.899 0 0-1.755.135-2.88.135-1.064 0-2.85-.15-2.85-.15-.585-.03-.661.855-.075.885 0 0 .54.061 1.125.09l1.68 4.605-2.37 7.08L5.354 6.9c.649-.03 1.234-.1 1.234-.1.585-.075.516-.93-.065-.896 0 0-1.746.138-2.874.138-.2 0-.438-.008-.69-.015C4.911 3.15 8.235 1.215 12 1.215c2.809 0 5.365 1.072 7.286 2.833-.046-.003-.091-.009-.141-.009-1.06 0-1.812.923-1.812 1.914 0 .89.513 1.643 1.06 2.531.411.72.89 1.643.89 2.977 0 .915-.354 1.994-.821 3.479l-1.075 3.585-3.9-11.61.001.014zM12 22.784c-1.059 0-2.081-.153-3.048-.437l3.237-9.406 3.315 9.087c.024.053.05.101.078.149-1.12.393-2.325.609-3.582.609M1.211 12c0-1.564.336-3.05.935-4.39L7.29 21.709C3.694 19.96 1.212 16.271 1.211 12M12 0C5.385 0 0 5.385 0 12s5.385 12 12 12 12-5.385 12-12S18.615 0 12 0" />
+</svg>
+    </a>
+    <a href="https://kgovardhan409.github.io/kgovardhan_portfolio/" target="_blank" rel="noopener noreferrer me"
+        title="Portfolio">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+</svg>
+    </a>
+    <a href="mailto:kgovardhan409@gmail.com" class="email-trigger" data-email="kgovardhan409@gmail.com" rel="me"
+        title="Email">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 21" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+    <polyline points="22,6 12,13 2,6"></polyline>
+</svg>
+    </a>
+</div>
+
+        <span>&copy; 2026 <a href="http://localhost:61242/">Govardhan Dev Blog</a></span> · 
 
     
     
@@ -855,6 +1202,119 @@ System design interview questions with detailed explanations. Click on any quest
         <polyline points="17 18 12 13 7 18"></polyline>
     </svg>
 </a>
+
+<div id="email-popup-backdrop" class="email-popup-backdrop hidden">
+    <div class="email-popup" role="dialog" aria-modal="true" aria-labelledby="email-popup-title">
+        <p id="email-popup-title">Send an email to <strong id="email-popup-address"></strong>?</p>
+        <div class="email-popup-actions">
+            <a id="email-popup-send" class="email-popup-btn email-popup-btn-primary" href="#">Send Email</a>
+            <button type="button" id="email-popup-copy" class="email-popup-btn">Copy Address</button>
+            <button type="button" id="email-popup-close" class="email-popup-btn">Cancel</button>
+        </div>
+        <p id="email-popup-copied" class="email-popup-copied hidden">Copied!</p>
+    </div>
+</div>
+<style>
+    .email-popup-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+    }
+    .email-popup-backdrop.hidden {
+        display: none;
+    }
+    .email-popup {
+        background: var(--entry);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 1.5rem;
+        max-width: 90vw;
+        width: 360px;
+        text-align: center;
+        color: var(--primary);
+    }
+    .email-popup-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+        margin-top: 1rem;
+    }
+    .email-popup-btn {
+        border: 1px solid var(--border);
+        background: var(--theme);
+        color: var(--primary);
+        border-radius: 6px;
+        padding: 0.4rem 0.9rem;
+        cursor: pointer;
+        font-size: 0.9rem;
+        text-decoration: none;
+    }
+    .email-popup-btn:hover {
+        background: var(--tertiary);
+    }
+    .email-popup-btn-primary {
+        background: var(--primary);
+        color: var(--theme);
+        border-color: var(--primary);
+    }
+    .email-popup-btn-primary:hover {
+        opacity: 0.85;
+    }
+    .email-popup-copied {
+        margin: 0.75rem 0 0;
+        font-size: 0.85rem;
+        color: var(--secondary);
+    }
+    .email-popup-copied.hidden {
+        display: none;
+    }
+</style>
+<script>
+    (function () {
+        const backdrop = document.getElementById("email-popup-backdrop");
+        const addressEl = document.getElementById("email-popup-address");
+        const sendBtn = document.getElementById("email-popup-send");
+        const copyBtn = document.getElementById("email-popup-copy");
+        const closeBtn = document.getElementById("email-popup-close");
+        const copiedMsg = document.getElementById("email-popup-copied");
+        let currentEmail = "";
+
+        function openPopup(email) {
+            currentEmail = email;
+            addressEl.textContent = email;
+            sendBtn.href = "mailto:" + email;
+            copiedMsg.classList.add("hidden");
+            backdrop.classList.remove("hidden");
+        }
+
+        function closePopup() {
+            backdrop.classList.add("hidden");
+        }
+
+        document.querySelectorAll(".email-trigger").forEach(function (link) {
+            link.addEventListener("click", function (e) {
+                e.preventDefault();
+                openPopup(link.dataset.email);
+            });
+        });
+
+        closeBtn.addEventListener("click", closePopup);
+        backdrop.addEventListener("click", function (e) {
+            if (e.target === backdrop) closePopup();
+        });
+
+        copyBtn.addEventListener("click", function () {
+            navigator.clipboard.writeText(currentEmail).then(function () {
+                copiedMsg.classList.remove("hidden");
+            });
+        });
+    })();
+</script>
 
 <script>
     let menu = document.getElementById('menu');
@@ -914,6 +1374,53 @@ System design interview questions with detailed explanations. Click on any quest
         }
     })
 
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
 </script>
 </body>
 
