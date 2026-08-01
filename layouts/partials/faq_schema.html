@@ -1,0 +1,26 @@
+{{- /* Emits FAQPage structured data for posts whose content is a list of
+   <details><summary>Question</summary>Answer</details> blocks, so search
+   engines can understand and potentially surface individual Q&A pairs. */ -}}
+{{- if eq .Kind "page" }}
+{{- $chunks := findRE `(?s)<summary>.*?</summary>.*?</details>` .Content }}
+{{- if ge (len $chunks) 2 }}
+{{- $faq := slice }}
+{{- range $chunks }}
+    {{- $chunk := . }}
+    {{- $summaryHTML := replaceRE `(?s)^<summary>(.*?)</summary>.*$` "$1" $chunk }}
+    {{- $answerHTML := replaceRE `(?s)^<summary>.*?</summary>(.*)</details>$` "$1" $chunk }}
+    {{- $titleHTML := replaceRE `(?s)^<strong>(.*?)</strong>.*$` "$1" $summaryHTML }}
+    {{- $question := $titleHTML | plainify | htmlUnescape | htmlUnescape | strings.TrimSpace }}
+    {{- $answer := $answerHTML | plainify | strings.TrimSpace }}
+    {{- $answer = strings.Truncate 300 $answer | htmlUnescape | htmlUnescape }}
+    {{- if and $question $answer }}
+        {{- $faq = $faq | append (dict "@type" "Question" "name" $question "acceptedAnswer" (dict "@type" "Answer" "text" $answer)) }}
+    {{- end }}
+{{- end }}
+{{- if gt (len $faq) 0 }}
+<script type="application/ld+json">
+{{ (dict "@context" "https://schema.org" "@type" "FAQPage" "mainEntity" $faq) | jsonify | safeJS }}
+</script>
+{{- end }}
+{{- end }}
+{{- end }}

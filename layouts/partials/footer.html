@@ -1,0 +1,274 @@
+{{- if not (.Param "hideFooter") }}
+<footer class="footer">
+    {{- with site.Params.socialIcons }}
+    {{ partial "social_icons.html" (dict "align" "center") }}
+    {{- end }}
+    {{- if not site.Params.footer.hideCopyright }}
+        {{- if site.Copyright }}
+        <span>{{ site.Copyright | markdownify }}</span>
+        {{- else }}
+        <span>&copy; {{ now.Year }} <a href="{{ "" | absLangURL }}">{{ site.Title }}</a></span>
+        {{- end }}
+        {{- print " · "}}
+    {{- end }}
+
+    {{- with site.Params.footer.text }}
+        {{ . | markdownify }}
+        {{- print " · "}}
+    {{- end }}
+
+    {{/*
+        - The "Powered by Hugo" text is intentionally left at the end of the footer to give it more prominence.
+        - We kindly encourage you to keep this line. Keeping this credit helps open source projects like PaperMod and Hugo reach more people, supports the open source ecosystem, and shows appreciation for the work that goes into these tools.
+        - If you choose to remove it, please consider adding a link to the PaperMod GitHub repository somewhere on your site to give credit to the project and its contributors.
+        - Support us by sponsoring the project on GitHub Sponsors: https://github.com/sponsors/adityatelange
+    */}}
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+{{- end }}
+
+{{- if (not site.Params.disableScrollToTop) }}
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+{{- end }}
+
+{{- partial "extend_footer.html" . }}
+
+<div id="email-popup-backdrop" class="email-popup-backdrop hidden">
+    <div class="email-popup" role="dialog" aria-modal="true" aria-labelledby="email-popup-title">
+        <p id="email-popup-title">Send an email to <strong id="email-popup-address"></strong>?</p>
+        <div class="email-popup-actions">
+            <a id="email-popup-send" class="email-popup-btn email-popup-btn-primary" href="#">Send Email</a>
+            <button type="button" id="email-popup-copy" class="email-popup-btn">Copy Address</button>
+            <button type="button" id="email-popup-close" class="email-popup-btn">Cancel</button>
+        </div>
+        <p id="email-popup-copied" class="email-popup-copied hidden">Copied!</p>
+    </div>
+</div>
+<style>
+    .email-popup-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+    }
+    .email-popup-backdrop.hidden {
+        display: none;
+    }
+    .email-popup {
+        background: var(--entry);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 1.5rem;
+        max-width: 90vw;
+        width: 360px;
+        text-align: center;
+        color: var(--primary);
+    }
+    .email-popup-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+        margin-top: 1rem;
+    }
+    .email-popup-btn {
+        border: 1px solid var(--border);
+        background: var(--theme);
+        color: var(--primary);
+        border-radius: 6px;
+        padding: 0.4rem 0.9rem;
+        cursor: pointer;
+        font-size: 0.9rem;
+        text-decoration: none;
+    }
+    .email-popup-btn:hover {
+        background: var(--tertiary);
+    }
+    .email-popup-btn-primary {
+        background: var(--primary);
+        color: var(--theme);
+        border-color: var(--primary);
+    }
+    .email-popup-btn-primary:hover {
+        opacity: 0.85;
+    }
+    .email-popup-copied {
+        margin: 0.75rem 0 0;
+        font-size: 0.85rem;
+        color: var(--secondary);
+    }
+    .email-popup-copied.hidden {
+        display: none;
+    }
+</style>
+<script>
+    (function () {
+        const backdrop = document.getElementById("email-popup-backdrop");
+        const addressEl = document.getElementById("email-popup-address");
+        const sendBtn = document.getElementById("email-popup-send");
+        const copyBtn = document.getElementById("email-popup-copy");
+        const closeBtn = document.getElementById("email-popup-close");
+        const copiedMsg = document.getElementById("email-popup-copied");
+        let currentEmail = "";
+
+        function openPopup(email) {
+            currentEmail = email;
+            addressEl.textContent = email;
+            sendBtn.href = "mailto:" + email;
+            copiedMsg.classList.add("hidden");
+            backdrop.classList.remove("hidden");
+        }
+
+        function closePopup() {
+            backdrop.classList.add("hidden");
+        }
+
+        document.querySelectorAll(".email-trigger").forEach(function (link) {
+            link.addEventListener("click", function (e) {
+                e.preventDefault();
+                openPopup(link.dataset.email);
+            });
+        });
+
+        closeBtn.addEventListener("click", closePopup);
+        backdrop.addEventListener("click", function (e) {
+            if (e.target === backdrop) closePopup();
+        });
+
+        copyBtn.addEventListener("click", function () {
+            navigator.clipboard.writeText(currentEmail).then(function () {
+                copiedMsg.classList.remove("hidden");
+            });
+        });
+    })();
+</script>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        // Set the scroll position
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+
+{{- if (not site.Params.disableScrollToTop) }}
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+{{- end }}
+
+{{- if (not site.Params.disableThemeToggle) }}
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+{{- end }}
+
+{{- if (and (eq .Kind "page") (ne .Layout "archives") (ne .Layout "search") (.Param "ShowCodeCopyButtons")) }}
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '{{- i18n "code_copy" | default "copy" }}';
+
+        function copyingDone() {
+            copybutton.innerHTML = '{{- i18n "code_copied" | default "copied!" }}';
+            setTimeout(() => {
+                copybutton.innerHTML = '{{- i18n "code_copy" | default "copy" }}';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            // td containing LineNos
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            // table containing LineNos and code
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            // code blocks not having highlight as parent class
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+{{- end }}

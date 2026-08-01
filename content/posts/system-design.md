@@ -1,12 +1,12 @@
 ---
 title: "System Design Interview Questions"
 date: 2026-06-16
+lastmod: 2026-08-01
+weight: 2
 draft: false
 tags: ["System Design", "Architecture", "Interview"]
 categories: ["System Design"]
 ---
-
-# System Design Interview Questions Repository
 
 System design interview questions with detailed explanations. Click on any question to expand details.
 
@@ -87,6 +87,8 @@ public class OrderController {
 3. **Transaction Management**: ACID compliance for order creation
 4. **Service Communication**: Synchronous (REST/gRPC) for critical operations, asynchronous (Kafka) for events
 5. **Monitoring & Logging**: All state changes are tracked and logged
+
+**Companies:** <code>Nike</code>
 
 </details>
 
@@ -170,6 +172,8 @@ What should be cached in an Order Management System? What TTL should products ha
 4. **Monitoring**: Track cache hit rates and adjust TTLs accordingly
 5. **Fallback**: Always handle cache misses gracefully
 
+**Companies:** <code>Nike</code>
+
 </details>
 
 ---
@@ -246,6 +250,8 @@ public OrderResponse getOrder(String orderId) {
 3. **Database optimization**: Indexes, query optimization, and lazy loading
 4. **Caching**: Reduce database hits for frequently accessed data
 5. **Distributed tracing**: Understand request flow across services
+
+**Companies:** <code>Nike</code>
 
 </details>
 
@@ -342,6 +348,8 @@ public class ProductService {
 5. **No API Versioning Needed**: Same endpoint works for all versions
 6. **Independent Adoption**: Services adopt new fields at their own pace
 7. **Gradual Rollout**: Use feature flags to enable new fields gradually per client
+
+**Companies:** <code>Nike</code>
 
 </details>
 
@@ -455,6 +463,8 @@ public class OrderService {
 6. **Monitoring**: Alert on failures
 7. **Dead Letter Queue**: Handle failed messages
 
+**Companies:** <code>Nike</code>
+
 </details>
 
 ---
@@ -546,6 +556,8 @@ public class OrderService {
 3. **Technology Flexibility**: Choose best tool per service
 4. **Fault Tolerance**: Failures isolated
 5. **Business Agility**: Faster time to market
+
+**Companies:** <code>Nike</code>
 
 </details>
 
@@ -686,5 +698,213 @@ spec:
 5. **Quick Rollback**: Revert instantly if issues detected
 6. **Traffic Splitting**: Mix old and new versions
 7. **User Communication**: Alert users of changes
+
+**Companies:** <code>Nike</code>
+
+</details>
+
+---
+
+<details>
+<summary><strong>Monolithic vs Microservices — General Comparison</strong> - <code>Architecture</code></summary>
+
+### Problem Statement
+
+How do monolithic and microservices architectures compare overall? (Broader than just the real-time benefits covered above.)
+
+### Comparison
+
+| Aspect | Monolithic | Microservices |
+|---|---|---|
+| Codebase | Single, unified | Multiple, independent |
+| Deployment | Whole app deployed together | Each service deployed independently |
+| Scaling | Scale entire app | Scale individual services |
+| Tech Stack | One stack for everything | Different stack per service |
+| Data | Single shared database | Database per service |
+| Team Structure | One team, shared codebase | Small teams own individual services |
+| Communication | In-process function calls | Network calls (REST/gRPC/events) |
+| Complexity | Simple to start, hard to maintain at scale | Ops overhead (discovery, tracing) but easier to scale a team |
+| Fault Isolation | One bug can crash the app | Failures isolated to a service |
+
+### When to Choose Which
+
+- **Monolith:** small team, early-stage product, need to move fast without ops overhead
+- **Microservices:** large team, need independent scaling/deployment, different parts of the system have very different load or tech needs
+
+**Companies:** <code>Nike</code>
+
+</details>
+
+---
+
+<details>
+<summary><strong>Common Microservices Design Patterns</strong> - <code>Microservices</code> | <code>Patterns</code></summary>
+
+### Problem Statement
+
+What design patterns keep microservices reliable, and which one fits a partial-failure scenario across services (e.g., one service's update needs to roll back if a downstream step fails)?
+
+### Key Patterns
+
+| Pattern | Solves | One-liner |
+|---|---|---|
+| **Saga** | Distributed transactions | Break a transaction into local steps, each with a compensating action if a later step fails. Two flavors: **Choreography** (services react to each other's events) and **Orchestration** (a central coordinator drives the steps) |
+| **Circuit Breaker** | Cascading failures | Trip open after N failures, fail fast instead of hammering a dead dependency, retry after a cooldown |
+| **Bulkhead** | One overloaded dependency starving others | Isolate resources (thread pools/connections) per dependency |
+| **API Gateway** | Clients calling many services directly | Single entry point for routing, auth, rate limiting |
+| **CQRS** | Read/write models with different needs | Separate write model from read model, often different stores |
+| **Event Sourcing** | Need full audit/history of state changes | Store state as a sequence of events, not just the current row |
+| **Strangler Fig** | Migrating a monolith incrementally | Route traffic for a feature to the new service while the rest still hits the monolith |
+
+### Best Fit for Partial-Failure / Distributed-Transaction Issues
+
+**Saga pattern** — the go-to when one microservice's action needs to be safely rolled back if a downstream step fails, without a distributed lock/2PC.
+
+**Companies:** <code>Nike</code>
+
+</details>
+
+---
+
+<details>
+<summary><strong>What is Rate Limiting?</strong> - <code>API Design</code></summary>
+
+### Problem Statement
+
+What is a rate limiter, and how would you implement one?
+
+### Definition
+
+A rate limiter caps how many requests a client (user/IP/API key) can make in a given time window — protects the system from abuse, traffic spikes, and runaway clients.
+
+### Common Algorithms
+
+| Algorithm | How it Works | Trade-off |
+|---|---|---|
+| **Token Bucket** | Bucket refills at a fixed rate; each request consumes a token | Allows bursts up to bucket size |
+| **Leaky Bucket** | Requests queued, processed at a fixed rate | Smooths bursts but adds latency |
+| **Fixed Window Counter** | Count requests per fixed window (e.g., per minute) | Simple, but allows 2x burst at window edges |
+| **Sliding Window Log/Counter** | Tracks timestamps in a rolling window | More accurate, slightly more memory |
+
+### Simple Token Bucket
+
+```java
+class RateLimiter {
+    private final int capacity;
+    private double tokens;
+    private final double refillRatePerSec;
+    private long lastRefillTimestamp;
+
+    public synchronized boolean allowRequest() {
+        refill();
+        if (tokens >= 1) {
+            tokens -= 1;
+            return true;
+        }
+        return false;
+    }
+
+    private void refill() {
+        long now = System.currentTimeMillis();
+        double secondsElapsed = (now - lastRefillTimestamp) / 1000.0;
+        tokens = Math.min(capacity, tokens + secondsElapsed * refillRatePerSec);
+        lastRefillTimestamp = now;
+    }
+}
+```
+
+At scale, this is usually centralized with **Redis** (`INCR` + `EXPIRE`, or a sorted set for sliding window) so all app instances share the same counter.
+
+**Companies:** <code>Nike</code>
+
+</details>
+
+---
+
+<details>
+<summary><strong>Describe a Recent Task You Enjoyed Working On</strong> - <code>Behavioral</code></summary>
+
+### Problem Statement
+
+Interviewers often ask you to walk through a recent piece of work you liked — they're checking depth of ownership and technical decision-making, not just "what" you built.
+
+### How to Structure the Answer (STAR)
+
+- **Situation:** 1-2 lines of context — what was the project/problem
+- **Task:** What was *your* specific responsibility
+- **Action:** The technical decisions you made and why — this is what they're really listening for (trade-offs, alternatives considered)
+- **Result:** Measurable outcome — performance gain, bug reduction, time saved, business impact
+
+### Template to Fill In Before Your Next Interview
+
+> "Recently I worked on **[feature/system]**, where the challenge was **[problem]**. I chose to **[approach]** over **[alternative]** because **[reasoning/trade-off]**. It resulted in **[measurable outcome]**, and what I liked about it was **[the specific technical challenge you found interesting]**."
+
+> This one needs your own specifics — swap in an actual recent task before the interview.
+
+**Companies:** <code>Nike</code>
+
+</details>
+
+---
+
+<details>
+<summary><strong>Order Service — API Design & Versioning</strong> - <code>API Design</code> | <code>System Design</code></summary>
+
+### Problem Statement
+
+Design the `Create Order` API for an e-commerce Order Service — the service split, DB choice, request/response contract, and how you'd version the API as it evolves.
+
+### Service Breakdown
+
+- **OrderService** — owns order creation and tracking
+- **PaymentService** — handles payment processing
+- **NotificationService** — sends order confirmations
+
+### Data Store: SQL (PostgreSQL), not NoSQL
+
+Orders and payments need **ACID transactions** and relational integrity between an order and its payment — a natural fit for a relational model over a document store. Core tables: `OrderTable`, `PaymentHistory`.
+
+### API Contract
+
+**`POST /createOrder`**
+
+Request:
+```json
+{
+  "quantity": 2,
+  "productId": "P12345",
+  "userId": 1001
+}
+```
+`createdTimestamp` is set server-side — never trust a client-supplied timestamp.
+
+Response:
+```json
+{
+  "orderStatus": "ORDER_SUCCESS | PAYMENT_FAILED | PAYMENT_PROCESSING | FAILED",
+  "orderDateTime": "2026-08-01T10:00:00Z",
+  "quantity": 2,
+  "price": {
+    "discount": 0,
+    "tax": 0,
+    "price": 0,
+    "total": 0
+  },
+  "productDetails": { "productId": "P12345", "name": "..." }
+}
+```
+
+### API Versioning Options
+
+| Approach | How | Trade-off |
+|---|---|---|
+| **URL Versioning** | `/createOrder/v2` | Explicit, easy to route and monitor, but clients must actively migrate |
+| **Feature Flag** | Same endpoint, gate new fields/behavior per user or cohort | No client migration needed, gradual rollout — but adds branching logic inside the service |
+
+### Caching
+
+Cache the read-heavy, slow-changing inputs to order creation — product details, pricing — not the order itself, which is write-heavy and must stay strongly consistent. See the Caching Strategy question above for per-resource TTLs.
+
+**Companies:** <code>Nike</code>
 
 </details>

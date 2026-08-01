@@ -1,6 +1,7 @@
 baseURL = 'https://kurakulagovardhan.xyz/'
 languageCode = 'en-us'
 title = 'Govardhan Dev Blog'
+enableRobotsTXT = true
 
 theme = 'PaperMod'
 
@@ -8,5 +9,39 @@ theme = 'PaperMod'
 unsafe = true
 
 [params]
+description = "Interview preparation notes on Data Structures & Algorithms, System Design, Frontend (React, Angular, JavaScript), and AWS/Cloud — practical Q&A for software engineering interviews."
+author = "Govardhan Kurakula"
 disableThemeToggle = false
 disableSpecial1stPost = true
+ShowBreadCrumbs = true
+ShowReadingTime = true
+ShowWordCount = true
+ShowPostNavLinks = true
+ShowCodeCopyButtons = true
+ShowRssButtonInSectionTermList = true
+mainSections = ["posts"]
+
+[[params.socialIcons]]
+name = "github"
+title = "GitHub"
+url = "https://github.com/kgovardhan409"
+
+[[params.socialIcons]]
+name = "linkedin"
+title = "LinkedIn"
+url = "https://www.linkedin.com/in/kgovardhan409/"
+
+[[params.socialIcons]]
+name = "wordpress"
+title = "Interview Prep Blog"
+url = "https://kgovardhan409.wordpress.com/"
+
+[[params.socialIcons]]
+name = "portfolio"
+title = "Portfolio"
+url = "https://kgovardhan409.github.io/kgovardhan_portfolio/"
+
+[[params.socialIcons]]
+name = "email"
+title = "Email"
+url = "mailto:kgovardhan409@gmail.com"
